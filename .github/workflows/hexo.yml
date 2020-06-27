@@ -1,4 +1,4 @@
-me: Hexo CICD
+name: Hexo CICD
 
 on: # 监视 `hexo`分支
   push:
