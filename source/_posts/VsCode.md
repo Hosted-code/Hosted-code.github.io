@@ -1,11 +1,11 @@
 ---
 title: VSCode
 categories:
-  - CheetSheet
+  - CheatSheet
   - Tool
 tags:
   - Tool
-  - CheetSeet
+  - CheatSheet
   - Snippet
 abbrlink: 3804610536
 date: 2019-11-29 16:43:03
