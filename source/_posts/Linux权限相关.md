@@ -271,22 +271,17 @@ ping: socket: Operation not permitted
 - 软件开发者应该为二进制文件赋予**最小权限**，而不是使用强大的setuid。
 - `Capabilities` 的主要思想在于**分割root用户的特权**，即将root的特权分割成不同的能力，每种能力代表一定的特权操作
 - 在4.4 版本中, Linux将root权限划分为38种能力
-- 在提到38个能力之前, 先要了解几个概念
-  - DAC
-  - MAC
-  - 
-{% label danger@ %}
 
 | Cap能力              | 序号 | 描述                                                         |
 | -------------------- | ---- | ------------------------------------------------------------ |
-| {% label danger@`CAP_CHOWN` %}   | 0    | 修改文件属主,  属组, 允许使用 `chown`                        |
-| {% label danger@`CAP_DAC_OVERRIDE` %}     | 1    | 忽略对文件的所有DAC访问限制                                  |
+| {% label danger@CAP_CHOWN %}   | 0    | 修改文件属主,  属组, 允许使用 `chown`                        |
+| {% label danger@CAP_DAC_OVERRIDE %}     | 1    | 忽略对文件的所有DAC访问限制                                  |
 | `CAP_DAC_READ_SEARCH`  | 2    | 忽略所有对读、搜索操作的限制,  `DAC_READ_SEARCH`是`DAC_OVERRIDE`的子集 |
-| {% label danger@ `CAP_FOWNER` %}           | 3    | 忽略文件属主ID必须和进程用户ID相匹配的限制<br>**最后操作的UID,覆盖文件的先前的UID**<br>不覆盖DAC, MAC的限制 |
+| {% label danger@ CAP_FOWNER %}           | 3    | 忽略文件属主ID必须和进程用户ID相匹配的限制<br>**最后操作的UID,覆盖文件的先前的UID**<br>不覆盖DAC, MAC的限制 |
 | `CAP_FSETID`           | 4    | 允许设置文件的 `setuid` 位,  确保在文件被修改后不修改setuid/setgid位<br>当文件被修改后,会清除掉文件的`setuid/setgid`位,而设定`CAP_FSETID`后将保证`setuid/setgid` 位不被清除.但这对 `chown` 函数无用 |
-| {% label danger@ `CAP_KILL` %}            | 5    | 对不属于自己的进程发送信号<br>普通用户要用`/bin/kill`这种绝对路径的方式,而不能用`kill`这种方式 |
+| {% label danger@ CAP_KILL %}           | 5    | 对不属于自己的进程发送信号<br>普通用户要用`/bin/kill`这种绝对路径的方式,而不能用`kill`这种方式 |
 | `CAP_SETGID`           | 6    | 允许改变进程的组ID, 允许进程使用setgid,  setgroups函数<br>与文件的sgid无关<br>通过UNIX域套接字传递套接字凭证时伪造GID |
-| {% label danger@ `CAP_SETUID` %}           | 7    | 允许改变进程的用户ID, 允许进程使用setuid函数<br>与文件的suid无关<br>通过UNIX域套接字传递套接字凭证时伪造UID |
+| {% label danger@CAP_SETUID  %}          | 7    | 允许改变进程的用户ID, 允许进程使用setuid函数<br>与文件的suid无关<br>通过UNIX域套接字传递套接字凭证时伪造UID |
 | `CAP_SETPCAP`          | 8    | 允许向其他进程转移能力以及删除其他进程的能力<br>**事实上只有init进程可以设定其它进程的能力,而其它程序无权对进程授权**<br>root用户也不能对其它进程的能力进行修改<br>只能对当前进程通过cap_set_proc等函数进行修改,而子进程也会继承这种能力. |
 | `CAP_LINUX_IMMUTABLE`  | 9    | 允许修改文件的不可修改(**IMMUTABLE**)和只添加(**APPEND-ONLY**)属性<br>允许普通用户执行`chattr`, 添加以上两个属性<br>**只能对自己的文件授权**(immutable/append-only)权限,对于其它用户的权限LINUX_IMMUTABLE不起作用(root除外) |
 | `CAP_NET_BIND_SERVICE` | 10   | 允许绑定到**小于1024**的端口                                 |
