@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://Hosted-code.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="vscode辅助插件 Markdown All in One, 主要是快捷输入 vscode-hexo-utils, 便于在vscode进行hexo的管理 PicGo, 图床插件  Markdown语法   元素 Markdown 语法    标题 # 标题1 ## h2 ### h3   加粗 **文字加粗**   引用 &gt; 引用文字   有序列表 1. 第一项 2. 第二项 3. 第三项">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo写作技巧">
+<meta property="og:url" content="http:&#x2F;&#x2F;hosted-code.github.io&#x2F;posts&#x2F;3662325414.html">
+<meta property="og:site_name" content="Hosted&#39;s Blog">
+<meta property="og:description" content="vscode辅助插件 Markdown All in One, 主要是快捷输入 vscode-hexo-utils, 便于在vscode进行hexo的管理 PicGo, 图床插件  Markdown语法   元素 Markdown 语法    标题 # 标题1 ## h2 ### h3   加粗 **文字加粗**   引用 &gt; 引用文字   有序列表 1. 第一项 2. 第二项 3. 第三项">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-11-30T13:21:05.000Z">
+<meta property="article:modified_time" content="2019-12-05T17:44:56.000Z">
+<meta property="article:author" content="Hosted">
+<meta property="article:tag" content="Blog">
+<meta property="article:tag" content="Snippet">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://hosted-code.github.io/posts/3662325414.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Hexo写作技巧 | Hosted's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="/dist/css/share.min.css">
+<link rel="alternate" href="/atom.xml" title="Hosted's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hosted's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-user-plus"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+<div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hosted-code.github.io/posts/3662325414.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="Hosted">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hosted's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Hexo写作技巧
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-30 13:21:05" itemprop="dateCreated datePublished" datetime="2019-11-30T13:21:05+00:00">2019-11-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Blog/" itemprop="url" rel="index">
+                    <span itemprop="name">Blog</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/3662325414.html#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/3662325414.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="vscode辅助插件"><a href="#vscode辅助插件" class="headerlink" title="vscode辅助插件"></a>vscode辅助插件</h1><ul>
+<li>Markdown All in One, 主要是快捷输入</li>
+<li>vscode-hexo-utils, 便于在vscode进行hexo的管理</li>
+<li>PicGo, 图床插件</li>
+</ul>
+<h1 id="Markdown语法"><a href="#Markdown语法" class="headerlink" title="Markdown语法"></a>Markdown语法</h1><table>
+<thead>
+<tr>
+<th align="left">元素</th>
+<th align="left">Markdown 语法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">标题</td>
+<td align="left"><code># 标题1</code> <code>## h2</code> <code>### h3</code></td>
+</tr>
+<tr>
+<td align="left">加粗</td>
+<td align="left"><code>**文字加粗**</code></td>
+</tr>
+<tr>
+<td align="left">引用</td>
+<td align="left"><code>&gt; 引用文字</code></td>
+</tr>
+<tr>
+<td align="left">有序列表</td>
+<td align="left"><code>1. 第一项</code> <code>2. 第二项</code> <code>3. 第三项</code></td>
+</tr>
+<tr>
+<td align="left">无序列表</td>
+<td align="left"><code>- 第一项</code> <code>- 第二项</code> <code>- 第三项</code></td>
+</tr>
+<tr>
+<td align="left">链接</td>
+<td align="left"><code>[链接](url)</code></td>
+</tr>
+<tr>
+<td align="left">图片</td>
+<td align="left"><code>![图片](image.jpg)</code></td>
+</tr>
+<tr>
+<td align="left">水平线</td>
+<td align="left"><code>---</code></td>
+</tr>
+<tr>
+<td align="left">代码</td>
+<td align="left">`code`</td>
+</tr>
+<tr>
+<td align="left">代码块</td>
+<td align="left">```code snippet```</td>
+</tr>
+</tbody></table>
+<p> <a href="https://www.markdownguide.org/cheat-sheet/" target="_blank" rel="noopener">Markdown Cheat Sheet</a></p>
+<a id="more"></a>
+
+<h1 id="Hexo-标签"><a href="#Hexo-标签" class="headerlink" title="Hexo 标签"></a>Hexo 标签</h1><h2 id="文本居中"><a href="#文本居中" class="headerlink" title="文本居中"></a>文本居中</h2><blockquote class="blockquote-center"><p>bla bla bla</p>
+</blockquote>
+
+<ul>
+<li>使用方法： 
+{% cq %}blah blah blah{% endcq %}`
+
+
+</li>
+</ul>
+<h2 id="代码块标签"><a href="#代码块标签" class="headerlink" title="代码块标签"></a>代码块标签</h2><figure class="highlight js"><figcaption><span>"hello world"</span><a href="http://www.google.com" target="_blank" rel="noopener">谷歌</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"hello world"</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>代码块标签<ul>
+<li><code>language</code>：语言名称</li>
+<li><code>title</code>：代码块标题，将会显示在左上角, 若不设定title则三个空格以上</li>
+<li><code>url</code>：链接地址<ul>
+<li>如果没有指定 link text 则会在右上角显示 link</li>
+<li>以url为分界， 左侧第一个单词为langauge, 其余均为title</li>
+<li>右侧识别为link_text</li>
+</ul>
+</li>
+<li><code>link text</code>：链接名称，指定 url 后有效，将会显示在右上角<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% codeblock [title] [lang:language] [url] [link text] [additional options] %&#125;</span><br><span class="line">code snippet</span><br><span class="line">&#123;% endcodeblock %&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>反斜杠代码块<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96; [language] [title] [url] [link text]</span><br><span class="line">code snippet</span><br><span class="line">&#96;&#96;&#96;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="note标签"><a href="#note标签" class="headerlink" title="note标签"></a>note标签</h2><div class="note primary">
+            <p>primary note tag</p>
+          </div>`
+<div class="note success">
+            <p>success  note tag</p>
+          </div>
+<div class="note info">
+            <p>info note tag</p>
+          </div>
+<div class="note warning">
+            <p>warning  note tag</p>
+          </div>
+<div class="note danger">
+            <p>danger note tag</p>
+          </div>
+<div class="note undefined">
+            <p>undefined note tag</p>
+          </div>
+
+
+<ul>
+<li>note标签: 类名包含<code>default</code>, <code>primary</code>, <code>success</code>, <code>info</code>, <code>warning</code>, <code>danger</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% note [class] %&#125;</span><br><span class="line">文本内容 (支持行内标签)</span><br><span class="line">&#123;% endnote %&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="label标签"><a href="#label标签" class="headerlink" title="label标签"></a>label标签</h2><p>I heard the echo, <span class="label default">from the valleys and the heart</span> Open to the lonely soul of <span class="label info">sickle harvesting</span><br>Repeat outrightly, but also repeat the well-being of<br>Eventually <span class="label warning">swaying in the desert oasis</span></p>
+<span class="label success">I believe</span> I am
+<span class="label primary">Born as the bright summer flowers</span>
+<p>Do not withered undefeated fiery demon rule<br>Heart rate and breathing to bear <span class="label danger">the load of the cumbersome</span><br>Bored</p>
+<ul>
+<li>lable标签 同note标签, <code><span class="label [class]">text</span></code></li>
+</ul>
+<h2 id="button按钮"><a href="#button按钮" class="headerlink" title="button按钮"></a>button按钮</h2><a class="btn" href="#"><i class="fa fa-home fa-fw fa-lg"></i>文本 & 大图标 (固定宽度)</a>
+
+<ul>
+<li>button, <strong>{% btn /path/to/url/, text, icon [class], title %}</strong><ul>
+<li>图标 ID 来源于 <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank" rel="noopener">FontAwesome</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="tab标签页"><a href="#tab标签页" class="headerlink" title="tab标签页"></a>tab标签页</h2><div class="tabs" id="tab标签列表"><ul class="nav-tabs"><li class="tab active"><a href="#tab标签列表-1">标签页1</a></li><li class="tab"><a href="#tab标签列表-2">标签页2</a></li><li class="tab"><a href="#tab标签列表-3">标签页3</a></li></ul><div class="tab-content"><div class="tab-pane active" id="tab标签列表-1"><p>  标签页1文本内容</p></div><div class="tab-pane" id="tab标签列表-2"><p>  标签页2文本内容</p></div><div class="tab-pane" id="tab标签列表-3"><p>  标签页3文本内容</p></div></div></div>
+
+<ul>
+<li>tab标签， 快速创建标签卡<ul>
+<li>Unique name: 全局唯一的 Tab 名称，将作为各个标签页的 id 属性前缀</li>
+<li>index: 当前激活的标签页索引，如果未定义则默认选中显示第一个标签页，如果设为 - 1 则默认隐藏所有标签页</li>
+<li>Tab caption: 当前标签页的标题，如果不指定则会以 Unique name 加上索引作为标题</li>
+<li>icon: 在标签页标题中添加 Font awesome 图标<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% tabs [Unique name], [index] %&#125;</span><br><span class="line">  &lt;!-- tab [Tab caption]@[icon] --&gt;</span><br><span class="line">  标签页内容（支持行内标签）</span><br><span class="line">  &lt;!-- endtab --&gt;</span><br><span class="line">&#123;% endtabs %&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="引用站内链接"><a href="#引用站内链接" class="headerlink" title="引用站内链接"></a>引用站内链接</h2><a href="/posts/3804610536.html" title="VSCode">VSCode</a>
+
+<ul>
+<li>使用语法<ul>
+<li>渲染为<strong>文章地址</strong>：{% post_path slug %}</li>
+<li>渲染为<strong>跳转链接</strong>：{% post_link slug [title] %}</li>
+<li>slug指<strong>Markdown 文件名</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="插入swig"><a href="#插入swig" class="headerlink" title="插入swig"></a>插入swig</h2><ul>
+<li>为防止swig语法被渲染， 使用<code>raw</code>标签<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% raw %&#125;</span><br><span class="line">content</span><br><span class="line">&#123;% endraw %&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Snippet"><a href="#Snippet" class="headerlink" title="Snippet"></a>Snippet</h1><div class="note info">
+            <p>snippet相关语法参见 <a href="/posts/3804610536.html" title="VSCode">VSCode</a></p>
+          </div>
+
+<ul>
+<li>一些设置<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//markdown启用自动补全</span></span><br><span class="line">"[markdown]": &#123;</span><br><span class="line">  "editor.quickSuggestions": true //预设 false</span><br><span class="line">&#125;,</span><br><span class="line">"editor.snippetSuggestions": "top"    //优先显示snippet</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//For Hexo</span></span><br><span class="line">"centerquote": &#123;</span><br><span class="line">	"prefix": "cq",</span><br><span class="line">	"body": "&#123;% cq %&#125; $1 &#123;% endcq %&#125;\n",</span><br><span class="line">	"description": "文本居中"</span><br><span class="line">&#125;,</span><br><span class="line">"note tag": &#123;</span><br><span class="line">	"prefix": "note",</span><br><span class="line">	"body": [</span><br><span class="line">		"&#123;% note $&#123;1|primary, success, info, warning, danger|&#125; %&#125;",</span><br><span class="line">		"$2",</span><br><span class="line">		<span class="string">"&#123;% endnote %&#125;\n"</span></span><br><span class="line">	],</span><br><span class="line">	"description": "note 标签"</span><br><span class="line">&#125;,</span><br><span class="line">"label tag": &#123;</span><br><span class="line">	"prefix": "label",</span><br><span class="line">	"body": "&#123;% label $&#123;1|primary, success, info, warning, danger|&#125;@$2 %&#125;\n",</span><br><span class="line">	"description": "label 标签"</span><br><span class="line">&#125;,</span><br><span class="line">"button tag": &#123;</span><br><span class="line">	"prefix": ["button", "btn"],</span><br><span class="line">	"body": "&#123;% btn $&#123;1:/path/to/url/&#125;, $&#123;2:text&#125;, $&#123;3:icon [class]&#125; %&#125;",</span><br><span class="line">	"description": "按钮标签"</span><br><span class="line">&#125;,</span><br><span class="line">"tab tag": &#123;</span><br><span class="line">	"prefix": "tab",</span><br><span class="line">	"body": [</span><br><span class="line">		"&#123;% tabs $&#123;1:标签列表名&#125; %&#125;",</span><br><span class="line">		"&lt;!-- tab $&#123;2:标签页1&#125; --&gt;",</span><br><span class="line">		"$3",</span><br><span class="line">		"&lt;!-- endtab --&gt;",</span><br><span class="line">		"&lt;!-- tab $&#123;4:标签页2&#125; --&gt;",</span><br><span class="line">		"$5",</span><br><span class="line">		"&lt;!-- endtab --&gt;",</span><br><span class="line">		"&lt;!-- tab $&#123;6:标签页3&#125; --&gt;",</span><br><span class="line">		"$7",</span><br><span class="line">		"&lt;!-- endtab --&gt;",</span><br><span class="line">		<span class="string">"&#123;% endtabs %&#125;"</span></span><br><span class="line">	],</span><br><span class="line">	"description": "按钮标签"</span><br><span class="line">&#125;,</span><br><span class="line">"post link": &#123;</span><br><span class="line">	"prefix": "link",</span><br><span class="line">	"body": "&#123;% post_link $&#123;1:markdown文件名&#125; $&#123;2:$1&#125; %&#125;",</span><br><span class="line">	"description": "站内链接"</span><br><span class="line">&#125;,</span><br><span class="line">"linkcard": &#123;</span><br><span class="line">	"prefix": "link",</span><br><span class="line">	"body": "&lt;a href=\"$&#123;1:#&#125;\" class=\"LinkCard\"&gt;$2&lt;/a&gt;",</span><br><span class="line">	"description": "卡片链接"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><a href="https://hexo.io/zh-cn/docs/tag-plugins" target="_blank" rel="noopener">标签插件</a></li>
+<li><a href="http://yearito.cn/posts/hexo-writing-skills.html" target="_blank" rel="noopener">Hexo 搭建个人博客系列：写作技巧篇</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+    <div>
+        <div class="reward-container">
+  <div>如果这篇文章对您很有帮助，不妨</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hosted 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hosted 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+
+    
+    </div>
+        
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<div>
+<ul class="my-post-copyright">
+    <li class="post-copyright-title">
+    <strong>本文标题： </strong>Hexo写作技巧
+    </li>
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hosted
+  </li>
+  <li class="post-copyright-date">
+    <strong>发布时间： </strong>2019年11月30日 - 13:21:05 
+  </li>
+  <li class="post-copyright-update">
+    <strong>最后更新： </strong>2019年12月05日 - 17:44:56
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://hosted-code.github.io/posts/3662325414.html" title="Hexo写作技巧">http://hosted-code.github.io/posts/3662325414.html</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://hosted-code.github.io/posts/3662325414.html"  aria-label="复制成功！"></i></span>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+<style>
+.my-post-copyright {
+    width: 85%;
+    max-width: 45em;
+    margin: 2.8em auto 0;
+    padding: .5em 1em;
+    border: 1px solid #d3d3d3;
+    font-size: .93rem;
+    line-height: 1.6em;
+    word-break: break-all;
+    background: rgba(255,255,255,.4);
+    box-shadow: 0 0 10px rgba(0,0,0,.12);
+    color: #555;
+}
+</style>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    });  
+</script>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Blog/" rel="tag"># Blog</a>
+              <a href="/tags/Snippet/" rel="tag"># Snippet</a>
+          </div>
+      
+  <div class="popular-posts-header">📚  相关文章推荐</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/426584999.html" rel="bookmark">Hexo 博客搭建</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/37349663.html" rel="bookmark">Hexo博客部署</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/3804610536.html" rel="bookmark">VSCode</a></div>
+    </li>
+  </ul>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/37349663.html" rel="prev" title="Hexo博客部署">
+      <i class="fa fa-chevron-left"></i> Hexo博客部署
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/3100115695.html" rel="next" title="【随笔】时令相关">
+      【随笔】时令相关 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+    <div class="post-spread">
+    <!-- 引入share.js -->
+        
+               <center><div data-weibo-title="分享到微博" data-qq-title="分享到QQ" data-douban-title="分享到豆瓣" class="social-share" class="share-component" data-disabled="twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣">分享到：</div></center>
+        
+    </div>
+</div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#vscode辅助插件"><span class="nav-number">1.</span> <span class="nav-text">vscode辅助插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Markdown语法"><span class="nav-number">2.</span> <span class="nav-text">Markdown语法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Hexo-标签"><span class="nav-number">3.</span> <span class="nav-text">Hexo 标签</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文本居中"><span class="nav-number">3.1.</span> <span class="nav-text">文本居中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码块标签"><span class="nav-number">3.2.</span> <span class="nav-text">代码块标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#note标签"><span class="nav-number">3.3.</span> <span class="nav-text">note标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#label标签"><span class="nav-number">3.4.</span> <span class="nav-text">label标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#button按钮"><span class="nav-number">3.5.</span> <span class="nav-text">button按钮</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tab标签页"><span class="nav-number">3.6.</span> <span class="nav-text">tab标签页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用站内链接"><span class="nav-number">3.7.</span> <span class="nav-text">引用站内链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插入swig"><span class="nav-number">3.8.</span> <span class="nav-text">插入swig</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Snippet"><span class="nav-number">4.</span> <span class="nav-text">Snippet</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">5.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hosted"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">Hosted</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:whcycle493@gmail.com" title="E-Mail → mailto:whcycle493@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/poem_qianmo" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;poem_qianmo" rel="noopener" target="_blank">浅墨的游戏编程Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hellogithub.com/" title="https:&#x2F;&#x2F;hellogithub.com&#x2F;" rel="noopener" target="_blank">HelloGitHub</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/yinwenjie" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;yinwenjie" rel="noopener" target="_blank">说好不能打脸</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://overapi.com/" title="http:&#x2F;&#x2F;overapi.com&#x2F;" rel="noopener" target="_blank">OverAPI</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.52im.net/" title="http:&#x2F;&#x2F;www.52im.net&#x2F;" rel="noopener" target="_blank">即时通信网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bestzuo.cn/" title="https:&#x2F;&#x2F;bestzuo.cn&#x2F;" rel="noopener" target="_blank">Sanarous(Hexo)</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hosted</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">115k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:45</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    new Valine({
+        lang: 'zh-cn',
+        admin_email: 'whcycle493@gmai.com',
+        el: '#comments' ,
+        appId: 'XXlFmaUUu3a48dG4Xg1N3xUT-gzGzoHsz',
+        appKey: 'Ah7OceuwXxogj5DkH3U0tNi8',
+        emoticon_url: 'https://cloud.panjunwen.com/alu',
+        emoticon_list: ["狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","暗地观察.png"],
+        placeholder: '',
+  });
+  </script>
+
+
+   <!--崩溃欺骗-->
+  
+    <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+  
+  <!-- 点击特效 -->
+  
+    
+      <script src="/js/src/fireworks.js"></script>
+    
+  
+  <!-- 背景特效 -->
+  
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+  
+  <!-- 分享功能 -->
+  <script src="/dist/js/social-share.min.js"></script>
+  <!-- 卡片链接 -->
+  <script type="text/javascript" src="/js/src/linkcard.js"></script>
+</body>
+</html>

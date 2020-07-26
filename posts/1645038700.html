@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://Hosted-code.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="本文均不涉及插件, 常用操作一图总结 四种模式  Normal, 默认模式, 文本操作 Insert, 正常编辑模式 Visual, 用于文本选定 Command, 文本编辑命令  vim按键的意义在于, 双手无需离开主键盘区域就可以进行绝大多数操作">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vim 使用">
+<meta property="og:url" content="http:&#x2F;&#x2F;hosted-code.github.io&#x2F;posts&#x2F;1645038700.html">
+<meta property="og:site_name" content="Hosted&#39;s Blog">
+<meta property="og:description" content="本文均不涉及插件, 常用操作一图总结 四种模式  Normal, 默认模式, 文本操作 Insert, 正常编辑模式 Visual, 用于文本选定 Command, 文本编辑命令  vim按键的意义在于, 双手无需离开主键盘区域就可以进行绝大多数操作">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;Hosted-code&#x2F;CloudImg@master&#x2F;Vim使用.jpg">
+<meta property="article:published_time" content="2020-07-04T09:02:52.000Z">
+<meta property="article:modified_time" content="2020-07-26T15:41:17.924Z">
+<meta property="article:author" content="Hosted">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Tool">
+<meta property="article:tag" content="CheatSheet">
+<meta property="article:tag" content="vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;Hosted-code&#x2F;CloudImg@master&#x2F;Vim使用.jpg">
+
+<link rel="canonical" href="http://hosted-code.github.io/posts/1645038700.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Vim 使用 | Hosted's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="/dist/css/share.min.css">
+<link rel="alternate" href="/atom.xml" title="Hosted's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hosted's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-user-plus"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+<div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hosted-code.github.io/posts/1645038700.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="Hosted">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hosted's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vim 使用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-07-04 09:02:52" itemprop="dateCreated datePublished" datetime="2020-07-04T09:02:52+00:00">2020-07-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Tool/CheatSheet/" itemprop="url" rel="index">
+                    <span itemprop="name">CheatSheet</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/1645038700.html#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/1645038700.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>7.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>7 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文均不涉及插件, 常用操作一图总结<br><img src="https://cdn.jsdelivr.net/gh/Hosted-code/CloudImg@master/Vim使用.jpg" alt="Vim使用" style="zoom: 80%;" /></p>
+<p>四种模式</p>
+<ul>
+<li><strong>Normal</strong>, 默认模式, 文本<strong>操作</strong></li>
+<li><strong>Insert</strong>, 正常编辑模式</li>
+<li><strong>Visual</strong>, 用于文本<strong>选定</strong></li>
+<li><strong>Command</strong>, 文本<strong>编辑命令</strong></li>
+</ul>
+<p>vim按键的意义在于, 双手无需离开主键盘区域就可以进行绝大多数操作</p>
+<a id="more"></a>
+
+<h1 id="移动"><a href="#移动" class="headerlink" title="移动"></a>移动</h1><table>
+<thead>
+<tr>
+<th>按键</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>h,j,k,l</code><br><code>gj, gk</code></td>
+<td><code>gj, gk</code>等同于<code>j,k</code>,不同的是前者将一行换行之后认作多行,后者仍认作一行</td>
+</tr>
+<tr>
+<td><code>gg</code>, <code>G</code></td>
+<td>首行,末行</td>
+</tr>
+<tr>
+<td><code>w/W</code>, <code>e/E</code>, <code>b/B</code>, <code>ge/gE</code></td>
+<td>移动单元是<strong>单词</strong><br><strong>大写</strong>按键为忽略<strong>标点</strong><br><code>w</code>, word; <code>e</code>, end; <code>b</code>, back<br><code>w</code>,<code>e</code>均为向后, <code>w</code>为单词首, <code>e</code>尾单词尾<br><code>b</code>,<code>ge</code>均为向前, <code>b</code>为单词首, <code>ge</code>为单词尾</td>
+</tr>
+<tr>
+<td><code>0</code>,<code>^</code>, <code>$</code><br><code>g0, g_, g$</code><br><code>gm</code></td>
+<td><code>0</code>,<code>^</code>均为行首, <code>0</code>为第一列, <code>^</code>为第一个非空字符处;<code>$</code>为行末<br><code>g0,g_,g$</code>等同于<code>0,^,$</code>, 不同的是前者将一行自动换行后认作多行, 后者认作一行<br><code>gm</code>为一行中间</td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>匹配符号之间跳转<code>()</code>,<code>{}</code>,<code>[]</code>,<code>/* */</code>, <code>#if, #ifdef, #else, #elif, #endif</code><br>具体可参见vim帮助, <code>:help %</code><br>即便不在匹配符号上, 按键后自动寻找到附近可匹配的符号</td>
+</tr>
+<tr>
+<td><code>(/)</code>,<code>{/}</code>, <code>[[/[]</code>,<code>][,]]</code></td>
+<td><code>(/)</code>, 句首句尾;<code>{/}</code>, 段首段尾<br>句子以.<strong>.,!,?</strong>结尾并紧随换行,空格,制表符, 以此为边界; 段落以空行为边界<br>中括号类按键以<code>{</code>大括号为移动边界, 第一次的中括号决定向前向后移动, 第一次的中括号决定移动到左大括号还是右大括号</td>
+</tr>
+<tr>
+<td><code>H, M, L</code><br><code>C-f, C-b, C-u, C-d</code></td>
+<td>H: 屏幕第一行; M: 屏幕中间; L: 屏幕最后一行<br><code>C-f</code>, 下翻一屏; <code>C-b</code>, 上翻一屏; <code>C-u</code>, 上翻半屏, <code>C-d</code>, 下翻半屏</td>
+</tr>
+<tr>
+<td><code>f/F{char}</code><br><code>t/T{char}</code></td>
+<td><code>f{char}</code>, 向后移动到第一个char的位置, <code>F{char}</code>为反方向操作<br><code>t{char}</code>类似于<code>f{char}</code>后在光标前移,  <code>T{char}</code>为反方向操作<br><code>f</code>为目标位置, <code>t</code>为目标之前, <code>;</code>, 为重复该操作, <code>,</code>为反方向重复操作</td>
+</tr>
+<tr>
+<td><code>:n</code>, `n</td>
+<td><code>,</code>nG`</td>
+</tr>
+<tr>
+<td><code>*</code>, <code>#</code></td>
+<td>以当前光标所在单词为目标, <code>*</code>为向后搜索, <code>#</code>为向前搜索<br><code>n</code>跳转到下一个目标位置, N跳转到上一个目标位置</td>
+</tr>
+<tr>
+<td><code>/pattern</code>, <code>?pattern</code></td>
+<td><code>/</code>, 向下搜索, <code>?</code>, 向上搜索</td>
+</tr>
+<tr>
+<td><code>C-o/i</code></td>
+<td><code>o</code>, 回到上一次编辑的地方, <code>i</code>, 回到下一次编辑的地方</td>
+</tr>
+</tbody></table>
+<h1 id="书签"><a href="#书签" class="headerlink" title="书签"></a>书签</h1><p>标记, 即为<strong>书签</strong>，在某处打上标记后，可快速跳转。</p>
+<p>三类标记</p>
+<ul>
+<li><p><code>a-z</code> 用户设置，仅对当前的一个文件生效，也就意味着只可以在当前文件中跳转</p>
+</li>
+<li><p><code>A-Z</code> 用户设置，全局标记，可以作用于不同文件。大写标注也称为「文件标注」。跳转时有可能会切换到另一个缓冲区</p>
+</li>
+<li><p><code>0-9</code> 由 <strong>viminfo</strong> 记录，0 代表 viminfo <strong>最后一次</strong>被写入的位置, </p>
+<ul>
+<li>0 代表 Vim 进程最后一次结束的位置</li>
+<li>1 代表 Vim 进程<strong>倒数第二次</strong>结束的位置</li>
+</ul>
+<p><code>m</code> 定义一个标记，如 <code>ma</code> 标记当前问题为 a 标记。</p>
+</li>
+</ul>
+<p>标记间跳转用 <code>&#39;</code> / <code>g&#39;</code>  或者反引号</p>
+<ul>
+<li><strong>单引号</strong>会跳转回被标记行的第一个<strong>非空字符</strong></li>
+<li><strong>反引号</strong>会跳转回被标记行的<strong>被标记列</strong>。</li>
+</ul>
+<p>其他的跳转,  反引号命令相同</p>
+<ul>
+<li><code>&#39;[&#39;</code>,  上次修改或复制的第一行或第一个字符</li>
+<li><code>&#39;]&#39;</code>, 上次修改或复制的最后一行或最后一个字符</li>
+<li><code>&#39;&lt;</code>, 上一次在可视模式下选取的第一行或第一个字符</li>
+<li><code>&#39;&gt;</code>,  上一次在可视模式下选取的最后一行或最后一个字符</li>
+<li><code>&#39;&#39;</code>, 上一次跳转之前的光标位置</li>
+<li><code>&#39;&quot;</code>, 上一次关闭当前缓冲区时的光标位置</li>
+<li><code>&#39;^</code>,  上一次插入字符后的光标位置</li>
+<li><code>&#39;.</code>, 上一次修改文本后的光标位置</li>
+<li><code>&#39;(</code>, 当前句子的开头; <code>&#39;)</code>, 当前句子的结尾</li>
+<li><code>&#39;{</code>, 当前段落的开头; <code>&#39;}</code>, 当前段落的结尾</li>
+</ul>
+<p>标记也可以搭配 <strong>范围</strong> 一起使用。如果在可视模式下选取一些文本，然后按下 <code>:</code>，这时命令行会被填充为 <code>:&#39;&lt;,&#39;&gt;</code>，这即表示在可视模式下选取的范围。</p>
+<p>使用 <code>:marks</code> 可以查看当前所有的标记，使用 <code>:h mark-motions</code> 更多关于标记的帮助信息。</p>
+<h1 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h1><p>选择处于visual模式</p>
+<ul>
+<li><code>v</code>, 按字符选定</li>
+<li><code>V</code>, 按行选定</li>
+<li><code>C-v</code>, 列选择</li>
+</ul>
+<p><code>a{x}</code>, <code>i{x}</code>,  <code>a</code> 选择的范围要比<code>i</code>要大, <strong>a: around; i: inner</strong></p>
+<ul>
+<li><code>x</code>可以是<code>w, s, p</code>, 分别表示word, sentence, paragraph</li>
+<li><code>x</code>可以是block,  <code>ax</code>, 包括外边符号, <code>ix</code>, 不包括外边符号<ul>
+<li><code>[/]</code>, <code>(/)</code>, <code>&lt;/&gt;</code>, <code>{/}</code>分别对应<code>[]</code>, <code>()</code>,  <code>&lt;&gt;</code>, <code>{}</code>包含的block</li>
+<li><code>&quot;</code>, <code>&#39;</code>, <code>反引号</code>, 分别对应其包起来的block</li>
+</ul>
+</li>
+</ul>
+<h1 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h1><p><code>r</code>, replace, 替换单个字符; <code>R</code>, 连续替换</p>
+<p><code>x</code>, 删除光标所在字符, <code>X</code>, 删除光标前一个字符</p>
+<p>命令格式: <strong><code>motion</code> + <code>num</code> + <code>range</code></strong></p>
+<p><code>motion</code>, 动作</p>
+<ul>
+<li><p>替换</p>
+<ul>
+<li><code>c</code>, change, 改写, 删了重写, <code>c</code>需要配合运动(如<code>w</code>, <code>b</code>, <code>j</code>等), 将删除从当前光标位置一直到运动结束的字符进入insert模式</li>
+<li><code>s</code>, substitute, 替换, 删除当前字符, 并进入insert模式</li>
+<li><code>r</code>, replace, 替代, 不进入insert模式, 需要另一个字符替换当前字符</li>
+</ul>
+</li>
+<li><p><code>d</code>, delete, 删除</p>
+</li>
+<li><p><code>y</code>, yank, 复制</p>
+</li>
+<li><p><code>v</code>, visual, 选择</p>
+</li>
+<li><p><code>range</code>, 均为上文提到的<strong>选择命令</strong></p>
+<ul>
+<li><strong>单词</strong>, <code>w/W</code>, <code>b/B</code>, <code>e/E</code></li>
+<li><strong>行</strong>, <code>j, k, 0, ^, $</code></li>
+<li><strong>句子</strong>, <code>(/)</code>; 段落: <code>{/}</code></li>
+</ul>
+</li>
+<li><p>command模式</p>
+<ul>
+<li><code>:set paste</code>, 粘贴不自动缩进</li>
+<li><code>:a, b co p</code>,  a-b行的内容 <strong>copy</strong> 到 p行, a &lt; b 时会提示范围输错了, 是否交换a,b, 确认的话会交换a,b 正常粘贴</li>
+<li><code>:a, b m p</code>, a-b行的内容 <strong>move</strong> 到 p</li>
+<li><code>:a, bd</code>, a-b行的内容 delete掉</li>
+</ul>
+</li>
+</ul>
+<p>编辑模式, <kbd>Ctrl</kbd>+<kbd>U</kbd>, 删除光标所在位置至行首的字符</p>
+<p><strong>特殊字符/符号</strong></p>
+<ul>
+<li>command 模式:  <strong>输入回车</strong>: <code>C-v</code> + 回车</li>
+<li><strong>insert</strong> + <strong>command</strong>: <code>:dig</code>获取特殊字符对应<code>digraph</code>, 然后 <code>C-k</code>,  输入对应<code>digraph</code></li>
+</ul>
+<p>大小写转换, <code>:help ~</code></p>
+<ul>
+<li><code>~</code>,  改变大小写</li>
+<li><code>g~~</code>, 改变当前行大小写</li>
+<li><code>guu</code>, 当前行字母全小写</li>
+<li><code>gUU</code>, 当前行字母全小写</li>
+</ul>
+<p><strong>列编辑,</strong> <code>C-v</code></p>
+<ul>
+<li>修改, <code>r</code>, 光标所选均会被 <strong>Replace</strong></li>
+<li>光标插入, <code>I</code>, 所选列光标前会被 <strong>Insert</strong></li>
+<li>光标后追加, <code>A</code>, 所选列光标后会 <strong>Append</strong></li>
+<li>删除, <code>d</code>, 光标所选会被 <strong>delete</strong></li>
+</ul>
+<p><strong>替换</strong>, <strong>substitute</strong>,  <code>:[range]s/pattern/string/flags</code></p>
+<ul>
+<li><strong>flag</strong>, 只列出常用的<ul>
+<li><code>c</code>, confirm, 每个替换都需要验证</li>
+<li><code>g</code>, global, 范围内全部替换</li>
+<li><code>i</code>, ignore case for the pattern, 忽略大小写<ul>
+<li><code>I</code>, don’t ignore case</li>
+</ul>
+</li>
+<li><code>n</code>, number, 不做替换, 只显示匹配数目</li>
+</ul>
+</li>
+<li><code>string</code>相关规则<ul>
+<li><code>\0, ... \9</code>, pattern 匹配到的第i个子串</li>
+<li><code>&amp;</code>, 表示为整个pattern</li>
+<li>大小写变换<ul>
+<li><code>~</code>, 替换, 大小写转换</li>
+<li><code>\u</code>, <code>\l</code>, 下个字符为大写, 小写</li>
+<li><code>\U</code>, <code>\L</code>, 接下来的字符为大写, 小写, 直到遇到<code>\e</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>替换示例: <code>:s/\([abc]\)\([efg]\)/\L\u\2\u\1/g   modifies &quot;AF Fa bG&quot; to &quot;Fa Fa Gb&quot;</code></li>
+</ul>
+<p>vim 与 shell</p>
+<ul>
+<li><code>:shell</code>, vim 进入shell, <code>exit</code>后会回到vim</li>
+<li><code>:!command</code>, 临时进入shell, 完成后返回vim</li>
+<li>与shell交互, ``:r !command`, 读取命令输出, 写入到vim中</li>
+</ul>
+<p>二进制文件</p>
+<ul>
+<li><code>vim -b filename</code>,  <code>-b</code>, 二进制, 否则文件末尾会被加上0x0a</li>
+<li><code>:%!xxd</code>, 以16进制方式查看</li>
+<li><code>:%!xxd -r</code>, 取消上一步操作, </li>
+<li>为调用<code>xxd</code>转换, <code>-g</code>, 指定输出每组的8位字节数, 默认为2</li>
+</ul>
+<h1 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h1><ul>
+<li><code>:w</code>, save, 保存</li>
+<li><code>:q</code>, quit, 退出, 修改未保存进行退出会失败</li>
+<li><code>:wq</code>, :<code>x</code>, save and exit, 保存退出</li>
+<li><code>:quit</code>, force quit, 强制退出, 忽略未保存</li>
+</ul>
+<h1 id="折叠"><a href="#折叠" class="headerlink" title="折叠"></a>折叠</h1><ul>
+<li>6种折叠模式, <code>:help fdm</code><ul>
+<li><strong>manual</strong>, 手动管理</li>
+<li><strong>indent</strong>, 缩进表示折叠</li>
+<li><strong>expr</strong>, 表达式表示折叠, <code>foldexpr</code></li>
+<li><strong>marker</strong>, 对特定标示, 如括号(<code>(), {}, []</code>) 折叠</li>
+<li><strong>syntax</strong>, 语法高亮折叠</li>
+<li><strong>diff</strong>, 没变更的会被折叠</li>
+</ul>
+</li>
+<li>折叠命令<ul>
+<li><code>zf</code>, 选中文本折叠<ul>
+<li><code>zf10j</code>, 折叠当前行后10行; <code>5zf</code>, 折叠5行</li>
+<li><code>zf7G</code>, 当前行至全文第7行折叠起来</li>
+<li><code>zfa(</code>, 折叠 <code>()</code>包围区域</li>
+</ul>
+</li>
+<li><code>zo</code>,  open 当前的折叠; <code>zc</code>, close 当前的折叠; <code>za</code>,  打开关闭折叠切换</li>
+<li><code>zd</code>, 删除当前的折叠, <strong>delete</strong>;  <code>zE</code>, 删掉所有的折叠, <strong>erase</strong></li>
+<li><code>zj</code>, <code>zk</code>,  移动到下/上一个折叠</li>
+<li><code>zn</code>, <code>zN</code>, 禁用/启用折叠</li>
+<li><code>zM</code>, 关闭所有及嵌套的折叠; <code>zr</code>, 打开所有折叠; <code>zR</code>, 打开所有及嵌套的折叠</li>
+</ul>
+</li>
+<li>保存折叠状态, <code>:mkview</code>, 此命令会在 <strong>.vim</strong> 下生成view文件夹</li>
+<li>可通过 <code>:loadview</code> 加载折叠状态</li>
+</ul>
+<h1 id="文本比较"><a href="#文本比较" class="headerlink" title="文本比较"></a>文本比较</h1><ul>
+<li><code>vimdiff file1 file2</code></li>
+<li>``vim -d file1 file2`</li>
+<li>已打开一个文件file1<ul>
+<li>上下,  <code>:diffsplit file2</code></li>
+<li><strong>左右: <code>:vert diffsplit file2</code></strong><ul>
+<li>左右文件交换: <code>C-w</code> + <code>H/L</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>已经打开两个文件, 分屏后分别在两个窗口输入 <code>:diffthis</code></li>
+<li>比较命令<ul>
+<li><code>:diffupdate</code>, 修改文件后变更比较结果</li>
+<li><code>[c</code>, 上一个diff点; <code>]c</code>下一个diff点</li>
+<li><code>dp</code>, diff put, 将diff点的当前文档应用到另一个文档</li>
+<li><code>do</code>, diff obtain, diff点的当前文档应用另一个文档的内容</li>
+</ul>
+</li>
+</ul>
+<h1 id="多屏-amp-session"><a href="#多屏-amp-session" class="headerlink" title="多屏 &amp; session"></a>多屏 &amp; session</h1><ul>
+<li><p>vim支持多窗口分屏, 可同时打开多个文件编辑</p>
+</li>
+<li><p>三种概念,  查看帮助<code>:help window</code></p>
+<ul>
+<li><strong>buffer</strong>, A buffer is the <strong>in-memory</strong> text of a file., 保存前修改只在内存中, 未写入磁盘</li>
+<li><strong>window</strong>, A window is a viewport on a buffer. <strong>sql中的视图</strong>, <strong>用来显示buffer,</strong> 一个buffer可有多个窗口, 一个窗口只对应一个buffer</li>
+<li><strong>tab</strong>, A tab page is a collection of windows. tab是窗口的集合</li>
+</ul>
+</li>
+<li><p>vim是终端软件, 非图形软件(gvim不包括在内)</p>
+<ul>
+<li>vim默认打开一个window, 根据打开的文件数量, 可以有多个buffer</li>
+<li><code>:e filename</code>, 新打开一个文件, buffer+1</li>
+<li><code>:ls</code>, 查看当前buffer<ul>
+<li>最开始是buffer编号, 用于buffer切换时指定编号<ul>
+<li><code>:bp</code>, 切换到 <strong>previous</strong> buffer</li>
+<li><code>:bn</code>, 切换到 <strong>next</strong> buffer</li>
+<li><code>:bf</code>, 切换到 <strong>first</strong> buffer</li>
+<li><code>:bl</code> 切换到 <strong>last</strong> buffer</li>
+<li><code>:b{n}</code>, 切换到第n个buffer, 如<code>:b2</code></li>
+</ul>
+</li>
+<li><code>:bd</code>, delete buffer, 关闭当前文件</li>
+<li><strong>flag</strong>,  标示文件状态<ul>
+<li><code>%</code>, 当前, 当前窗口正显示的文件</li>
+<li><code>#</code>, 交换, 上次打开的文件</li>
+<li><code>=</code>, 只读, 该buffer打开的是一个只读文件</li>
+<li><code>+</code>, 文件已修改</li>
+<li><code>a</code>, 当前被激活, <strong>activation</strong></li>
+<li><code>h</code>, 隐藏的缓冲区</li>
+</ul>
+</li>
+<li><code>1 %a + &quot;test.c&quot;   line 9</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>多窗口, 一个窗口 <strong>split</strong> 成多个窗口</p>
+<ul>
+<li><code>:sp</code>, 水平分屏, 分为上下; <code>:vsp</code>, 垂直分屏, 分为左右, 后可跟文件名</li>
+<li>窗口命令, <code>C-w</code><ul>
+<li><strong>光标移动</strong>, <code>C-w</code> + <code>hjkl</code></li>
+<li><strong>分屏移动</strong>, <code>C-w</code> + <code>HJKL</code></li>
+<li><strong>调整尺寸</strong><ul>
+<li><code>C-w</code> + <code>-/+</code>, 增加或减少窗口高度</li>
+<li><code>C-w</code> + <code>&lt;/&gt;</code>, 增加或减少窗口宽度</li>
+<li><code>C-w</code> + <code>=</code>, 均分窗口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>分屏同步滚动, <strong>scrollbind</strong></p>
+<ul>
+<li>设置, <code>:set scb</code></li>
+<li>取消, <code>:set scb!</code></li>
+</ul>
+</li>
+<li><p>标签页, <strong>tab</strong></p>
+<ul>
+<li><code>:tabnew + filename</code>, 新建一个tab页</li>
+<li><code>tabc i</code>, close掉tab页, 指定数字就关闭指定页, 否则关闭当前页</li>
+<li><code>:tabo</code>, close掉 other 页</li>
+<li><code>:tabs</code>, 查看所有tab页</li>
+<li>查看上一个, 下一个tab<ul>
+<li><code>:tabn</code>, <code>:tabp</code></li>
+<li><code>gt</code>, <code>gT</code></li>
+</ul>
+</li>
+<li><code>Ngt</code>, 查看第N个标签页</li>
+<li><code>vim -p file1 file2 file3</code>, 使用tab打开多个文件</li>
+</ul>
+</li>
+<li><p><strong>目录</strong>, <code>:E</code></p>
+<ul>
+<li>也可直接vim一个目录</li>
+<li><code>j, k</code>上下移动, 回车进入目录或打开文件, 上面有显示一堆命令</li>
+<li><code>:cd path</code>, 切换目录, <code>:pwd</code>, 查看当前路径</li>
+<li>目录分屏<ul>
+<li>上下分屏, <code>:He</code>,  <code>He!</code>为目录在上</li>
+<li>左右分屏, <code>Ve</code>, 左边是目录</li>
+<li><code>:Te</code>, tab页浏览目录</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>会话, <strong>session</strong></p>
+<ul>
+<li>保存会话:  <code>:mksession ~/.mysession.vim</code></li>
+<li>加载会话, <code>vim -S ~/.mysession.vim</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li><p><strong>字符编码:</strong>, <code>ga</code>, 查看光标处字符的ascii码, <code>g8</code>, 查看光标处字符的utf-8编码</p>
+</li>
+<li><p><code>gf</code>, 打开光标处所指的文件, 例如<code>#include</code></p>
+</li>
+<li><p><strong>缩进</strong></p>
+<ul>
+<li><code>&gt;&gt;</code>, 右缩进, <code>&lt;&lt;</code>, 左缩进, <code>=</code>, 缩进当前行, <strong>对齐缩进</strong>, 与上下文对齐</li>
+<li><code>=%</code>, <strong>对齐缩进整个语句块</strong>, <code>%</code>是括号匹配, <strong>光标需要在语句块括号上</strong></li>
+<li><code>gg=G</code>, 对整个文件进行排版</li>
+</ul>
+</li>
+<li><p><strong>自动补全</strong></p>
+<ul>
+<li><p><code>C-n</code>, <code>C-p</code></p>
+</li>
+<li><p>智能补全, 进入补全模式: <code>C-x</code></p>
+<ul>
+<li>整行补全, line <code>C-L</code></li>
+<li><strong>根据当前文件里关键字补全</strong><code>C-n</code></li>
+<li><strong>根据字典补全</strong><code>C-n</code></li>
+<li>根据同义词字典补全 <code>C-t</code></li>
+<li><strong>根据头文件内关键字补全</strong><code>C-i</code></li>
+<li>根据标签补全 <code>C-]</code></li>
+<li><strong>补全文件名</strong><code>C-f</code></li>
+<li>补全宏定义, <strong>define</strong> , <code>C-d</code></li>
+<li>补全vim命令 <code>C-v</code></li>
+<li>用户自定义补全方式 <code>C-u</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>插入计算结果:</strong> 输入 <code>ctrl-r =</code>，然后输入表达式，就能在光标处得到计算结果。</p>
+</li>
+</ul>
+<h1 id="vimrc"><a href="#vimrc" class="headerlink" title="vimrc"></a>vimrc</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">filetype on             &quot;检测文件类型</span><br><span class="line">filetype indent on      &quot;针对不同文件类型采用不同的缩进格式</span><br><span class="line">syntax enable           &quot;开启语法高亮</span><br><span class="line">syntax on</span><br><span class="line"></span><br><span class="line">&quot;通用项</span><br><span class="line">set number              &quot;显示行号</span><br><span class="line">set nowrap              &quot;取消换行</span><br><span class="line">set cursorline          &quot;突出显示当前行</span><br><span class="line">set colorcolumn&#x3D;121		&quot;121列高亮, 代码规范要求一行不超过120字符, 压线则超</span><br><span class="line">set paste               &quot;粘贴时保持格式</span><br><span class="line">set scrolloff&#x3D;3         &quot;光标的上方或下方至少会保留显示的行数, 意即上移或下移距屏幕边缘还有n行便开始滚动</span><br><span class="line">set autowrite           &quot;自动保存</span><br><span class="line">set autoread			&quot;自动加载, 外部修改文件, 自动更新</span><br><span class="line">set confirm             &quot;处理未保存文件或只读文件弹出确认</span><br><span class="line">set report&#x3D;0            &quot;通过使用: commands命令，告诉我们文件的哪一行被改变过&quot;</span><br><span class="line">set iskeyword+&#x3D;_,$,@,%,#,-  &quot;带有这些字符的不要被换行分割</span><br><span class="line">&quot;colorscheme desert		&quot;颜色主题</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot;命令模式模糊匹配</span><br><span class="line">set wildmenu</span><br><span class="line">set wildmode&#x3D;longest:list,full</span><br><span class="line"></span><br><span class="line">&quot;取消备份</span><br><span class="line">set nobackup</span><br><span class="line">set noswapfile</span><br><span class="line"></span><br><span class="line">&quot;查找</span><br><span class="line">set ignorecase          &quot;搜索忽略大小写</span><br><span class="line">set hlsearch            &quot;高亮搜索结果</span><br><span class="line">set incsearch           &quot;随着键入即时搜索</span><br><span class="line">set smartcase           &quot;有一个或以上大写字母时仍大小写敏感</span><br><span class="line">set magic               &quot;支持正则</span><br><span class="line"></span><br><span class="line">&quot;缩进</span><br><span class="line">set tabstop&#x3D;4           &quot;设置tab键的宽度</span><br><span class="line">set expandtab           &quot;将tab自动转为空格</span><br><span class="line">set smarttab</span><br><span class="line">set shiftwidth&#x3D;4        &quot;自动缩进的宽度</span><br><span class="line">set softtabstop&#x3D;4       &quot;退格键删除的空格数, 只影响tab插入的空格</span><br><span class="line">set smartindent         &quot;智能缩进</span><br><span class="line">set autoindent          &quot;自动缩进</span><br><span class="line">set cintent</span><br><span class="line">autocmd FileType make set noexpandtab  &quot;不将makefile中的tab转换为空格</span><br><span class="line"></span><br><span class="line">&quot;折叠</span><br><span class="line">set foldenable</span><br><span class="line">&quot; 折叠方法</span><br><span class="line">&quot; manual    手工折叠</span><br><span class="line">&quot; indent    使用缩进表示折叠</span><br><span class="line">&quot; expr      使用表达式定义折叠</span><br><span class="line">&quot; syntax    使用语法定义折叠</span><br><span class="line">&quot; diff      对没有更改的文本进行折叠</span><br><span class="line">&quot; marker    使用标记进行折叠, 默认标记是 &#123;&#123;&#123; 和 &#125;&#125;&#125;</span><br><span class="line">set foldmethod&#x3D;syntax</span><br><span class="line">&quot;set foldcolumn&#x3D;4 &quot;设置最大折叠层次</span><br><span class="line"></span><br><span class="line">&quot;编码设置</span><br><span class="line">set encoding&#x3D;gbk</span><br><span class="line">set fileencodings&#x3D;utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936</span><br><span class="line"></span><br><span class="line">&quot;状态栏</span><br><span class="line">set ruler               &quot;显示当前行号列号</span><br><span class="line">set showcmd             &quot;在状态栏显示正在输入的命令</span><br><span class="line"></span><br><span class="line">set statusline&#x3D;%F%m%r%h%w</span><br><span class="line">set statusline+&#x3D;[%&#123;&amp;fileformat&#125;]</span><br><span class="line">set statusline+&#x3D;[%&#123;&amp;fileencoding&#125;]</span><br><span class="line">set statusline+&#x3D;[%&#123;strftime(\&quot;%Y&#x2F;%m&#x2F;%d\ %H:%M:%S\&quot;,getftime(expand(\&quot;%:p\&quot;)))&#125;]</span><br><span class="line">set statusline+&#x3D;%&#x3D;%l,%c%V\ %P</span><br><span class="line">set laststatus&#x3D;2</span><br><span class="line"></span><br><span class="line">&quot;其他</span><br><span class="line">set lz	&quot;在执行宏命令时，不进行显示重绘；在宏命令执行完成后，一次性重绘，以便提高性能&quot;</span><br><span class="line">set noerrorbells		&quot;关闭错误信息响铃</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><ul>
+<li><code>:help</code></li>
+<li><a href="https://coolshell.cn/articles/11312.html" target="_blank" rel="noopener">无插件Vim编程技巧|</a></li>
+<li><a href="https://www.thinbug.com/q/16416758" target="_blank" rel="noopener">vi / vim中的s，c和r命令有什么区别？</a></li>
+<li><a href="https://blog.konghy.cn/2019/11/23/vim-skill/" target="_blank" rel="noopener">Vim 使用技巧整理</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+    <div>
+        <div class="reward-container">
+  <div>如果这篇文章对您很有帮助，不妨</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hosted 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hosted 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+
+    
+    </div>
+        
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<div>
+<ul class="my-post-copyright">
+    <li class="post-copyright-title">
+    <strong>本文标题： </strong>Vim 使用
+    </li>
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hosted
+  </li>
+  <li class="post-copyright-date">
+    <strong>发布时间： </strong>2020年07月04日 - 09:02:52 
+  </li>
+  <li class="post-copyright-update">
+    <strong>最后更新： </strong>2020年07月26日 - 15:41:17
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://hosted-code.github.io/posts/1645038700.html" title="Vim 使用">http://hosted-code.github.io/posts/1645038700.html</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://hosted-code.github.io/posts/1645038700.html"  aria-label="复制成功！"></i></span>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+<style>
+.my-post-copyright {
+    width: 85%;
+    max-width: 45em;
+    margin: 2.8em auto 0;
+    padding: .5em 1em;
+    border: 1px solid #d3d3d3;
+    font-size: .93rem;
+    line-height: 1.6em;
+    word-break: break-all;
+    background: rgba(255,255,255,.4);
+    box-shadow: 0 0 10px rgba(0,0,0,.12);
+    color: #555;
+}
+</style>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    });  
+</script>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Tool/" rel="tag"># Tool</a>
+              <a href="/tags/CheatSheet/" rel="tag"># CheatSheet</a>
+              <a href="/tags/vim/" rel="tag"># vim</a>
+          </div>
+      
+  <div class="popular-posts-header">📚  相关文章推荐</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/4059706354.html" rel="bookmark">Regexp 使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/3804610536.html" rel="bookmark">VSCode</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/4220703012.html" rel="bookmark">Linux权限相关</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/2914184278.html" rel="bookmark">定义未使用的变量</a></div>
+    </li>
+  </ul>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/4220703012.html" rel="prev" title="Linux权限相关">
+      <i class="fa fa-chevron-left"></i> Linux权限相关
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/4059706354.html" rel="next" title="Regexp 使用">
+      Regexp 使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+    <div class="post-spread">
+    <!-- 引入share.js -->
+        
+               <center><div data-weibo-title="分享到微博" data-qq-title="分享到QQ" data-douban-title="分享到豆瓣" class="social-share" class="share-component" data-disabled="twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣">分享到：</div></center>
+        
+    </div>
+</div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#移动"><span class="nav-number">1.</span> <span class="nav-text">移动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#书签"><span class="nav-number">2.</span> <span class="nav-text">书签</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选择"><span class="nav-number">3.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编辑"><span class="nav-number">4.</span> <span class="nav-text">编辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#退出"><span class="nav-number">5.</span> <span class="nav-text">退出</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#折叠"><span class="nav-number">6.</span> <span class="nav-text">折叠</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文本比较"><span class="nav-number">7.</span> <span class="nav-text">文本比较</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#多屏-amp-session"><span class="nav-number">8.</span> <span class="nav-text">多屏 &amp; session</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">9.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vimrc"><span class="nav-number">10.</span> <span class="nav-text">vimrc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文档"><span class="nav-number">11.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hosted"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">Hosted</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:whcycle493@gmail.com" title="E-Mail → mailto:whcycle493@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/poem_qianmo" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;poem_qianmo" rel="noopener" target="_blank">浅墨的游戏编程Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hellogithub.com/" title="https:&#x2F;&#x2F;hellogithub.com&#x2F;" rel="noopener" target="_blank">HelloGitHub</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/yinwenjie" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;yinwenjie" rel="noopener" target="_blank">说好不能打脸</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://overapi.com/" title="http:&#x2F;&#x2F;overapi.com&#x2F;" rel="noopener" target="_blank">OverAPI</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.52im.net/" title="http:&#x2F;&#x2F;www.52im.net&#x2F;" rel="noopener" target="_blank">即时通信网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bestzuo.cn/" title="https:&#x2F;&#x2F;bestzuo.cn&#x2F;" rel="noopener" target="_blank">Sanarous(Hexo)</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hosted</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">115k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:45</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    new Valine({
+        lang: 'zh-cn',
+        admin_email: 'whcycle493@gmai.com',
+        el: '#comments' ,
+        appId: 'XXlFmaUUu3a48dG4Xg1N3xUT-gzGzoHsz',
+        appKey: 'Ah7OceuwXxogj5DkH3U0tNi8',
+        emoticon_url: 'https://cloud.panjunwen.com/alu',
+        emoticon_list: ["狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","暗地观察.png"],
+        placeholder: '',
+  });
+  </script>
+
+
+   <!--崩溃欺骗-->
+  
+    <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+  
+  <!-- 点击特效 -->
+  
+    
+      <script src="/js/src/fireworks.js"></script>
+    
+  
+  <!-- 背景特效 -->
+  
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+  
+  <!-- 分享功能 -->
+  <script src="/dist/js/social-share.min.js"></script>
+  <!-- 卡片链接 -->
+  <script type="text/javascript" src="/js/src/linkcard.js"></script>
+</body>
+</html>

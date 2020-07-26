@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://Hosted-code.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="VsCode教程VSCode|极客教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VSCode">
+<meta property="og:url" content="http:&#x2F;&#x2F;hosted-code.github.io&#x2F;posts&#x2F;3804610536.html">
+<meta property="og:site_name" content="Hosted&#39;s Blog">
+<meta property="og:description" content="VsCode教程VSCode|极客教程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="d:%5CPictures%5CMarkdown_pic%5CVScode%E6%BC%94%E6%AD%A6%E5%9C%BA%5Cassets%5CVsCode%20CheetSheet.png">
+<meta property="article:published_time" content="2019-11-29T16:43:03.000Z">
+<meta property="article:modified_time" content="2020-07-26T15:41:17.924Z">
+<meta property="article:author" content="Hosted">
+<meta property="article:tag" content="Snippet">
+<meta property="article:tag" content="Tool">
+<meta property="article:tag" content="CheatSheet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="d:%5CPictures%5CMarkdown_pic%5CVScode%E6%BC%94%E6%AD%A6%E5%9C%BA%5Cassets%5CVsCode%20CheetSheet.png">
+
+<link rel="canonical" href="http://hosted-code.github.io/posts/3804610536.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>VSCode | Hosted's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="/dist/css/share.min.css">
+<link rel="alternate" href="/atom.xml" title="Hosted's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hosted's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-user-plus"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+<div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hosted-code.github.io/posts/3804610536.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="Hosted">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hosted's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VSCode
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-29 16:43:03" itemprop="dateCreated datePublished" datetime="2019-11-29T16:43:03+00:00">2019-11-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CheatSheet/" itemprop="url" rel="index">
+                    <span itemprop="name">CheatSheet</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CheatSheet/Tool/" itemprop="url" rel="index">
+                    <span itemprop="name">Tool</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/3804610536.html#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/3804610536.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.6k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="VsCode教程"><a href="#VsCode教程" class="headerlink" title="VsCode教程"></a>VsCode教程</h1><p><a href="https://geek-docs.com/vscode" target="_blank" rel="noopener" class="LinkCard">VSCode|极客教程</a></p>
+<a id="more"></a>
+
+<h1 id="VsCode基本设置"><a href="#VsCode基本设置" class="headerlink" title="VsCode基本设置"></a>VsCode基本设置</h1><ul>
+<li>中文化：  <kbd>Ctrl</kbd>+<kbd>shift</kbd>+<kbd>P</kbd> =&gt; language(配置显示语言) =&gt; 安装其他语言 =&gt; 安装中文语言包，重启</li>
+<li>VsCode集成Cmder<ol>
+<li><kbd>Ctrl</kbd>+<kbd>shift</kbd>+<kbd>P</kbd> =&gt; 输入 <strong>“设置”</strong> =&gt; 选择 <strong>打开设置(json)</strong></li>
+<li>settings.json添加如下代码</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这种设置方法 是通过cmd调用cmder的批处理文件， 窗口不独立</span></span><br><span class="line">"terminal.integrated.shell.windows": "C:\\Windows\\System32\\cmd.exe",</span><br><span class="line">"terminal.integrated.shellArgs.windows": ["/k", "D:\\Tool\\DevelopTool\\cmder\\vendor\\init.bat"]</span><br><span class="line"><span class="comment">// 这种设置方法cmder窗口独立</span></span><br><span class="line">"terminal.integrated.shell.windows": "D:\\Tool\\DevelopTool\\cmder\\Cmder.exe"</span><br><span class="line"><span class="comment">// 设置集成cmder内带的git</span></span><br><span class="line">"git.path": "D:\\Tool\\DevelopTool\\cmder\\vendor\\git-for-windows\\bin\\git.exe",</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改文件图标： 文件-&gt;首选项-&gt;文件图标主题-&gt;安装其他主题-&gt;安装喜欢的主题-&gt;选择文件图标主题</li>
+</ul>
+<h1 id="VsCode快捷键"><a href="#VsCode快捷键" class="headerlink" title="VsCode快捷键"></a>VsCode快捷键</h1><ul>
+<li>菜单里面就有各个操作的快捷键</li>
+<li><kbd>Ctrl</kbd>+<kbd>K</kbd>;<kbd>Ctrl</kbd>+<kbd>M</kbd>可调出按键映射， 可安装对应键盘映射使用其他编辑器的按键映射<ul>
+<li>会变为对应编辑器的快键键</li>
+</ul>
+</li>
+<li>vscode欢迎使用处就有快捷键速查表<br><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf" target="_blank" rel="noopener" class="Linkcard">VsCode官方快捷键速查表</a></li>
+</ul>
+<img src="D:%5CPictures%5CMarkdown_pic%5CVScode%E6%BC%94%E6%AD%A6%E5%9C%BA%5Cassets%5CVsCode%20CheetSheet.png" alt="VsCode CheetSheet" style="zoom:67%;" />
+
+<h2 id="编辑"><a href="#编辑" class="headerlink" title="编辑"></a>编辑</h2><ul>
+<li>文件中查找/替换： <kbd>Ctrl</kbd>+<kbd>shift</kbd>+<kbd>F/H</kbd></li>
+<li>注释<ul>
+<li>单行注释， 注释当前行，<kbd>Ctrl</kbd>+<kbd>/</kbd></li>
+<li>块状注释， 多行注释， <kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd></li>
+</ul>
+</li>
+<li>缩进： <kbd>Ctrl</kbd>+<kbd>[/]</kbd></li>
+<li>折叠/取消折叠： <kbd>Ctrl</kbd>+<kbd>shift</kbd>+<kbd>[/]</kbd></li>
+<li>删除当前行，<kbd>Ctrl</kbd>+<kbd>shift</kbd>+<kbd>K</kbd></li>
+<li>折叠：<kbd>Alt</kbd>+<kbd>Z</kbd></li>
+</ul>
+<h2 id="导航"><a href="#导航" class="headerlink" title="导航"></a>导航</h2><ul>
+<li>打开面板，打开文件：<kbd>Ctrl</kbd>+<kbd>P</kbd><ul>
+<li>默认列出最近打开的文件</li>
+<li>输入<code>?</code>得到提示</li>
+<li><kbd>Ctrl</kbd>+<kbd>P</kbd> &amp; <code>&gt;</code> =&gt; <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></li>
+<li><kbd>Ctrl</kbd>+<kbd>P</kbd> &amp; <code>@</code> =&gt; <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd></li>
+<li><kbd>Ctrl</kbd>+<kbd>P</kbd> &amp; <code>#</code> =&gt; <kbd>Ctrl</kbd>+<kbd>T</kbd></li>
+<li>。。。</li>
+</ul>
+</li>
+<li>定位符号<ul>
+<li>多文件：<kbd>Ctrl</kbd>+<kbd>T</kbd></li>
+<li>当前文件：<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>O</kbd></li>
+</ul>
+</li>
+<li>错误定位：<ul>
+<li>向下定位：<kbd>F8</kbd></li>
+<li>向上定位：<kbd>Shift</kbd>+ <kbd>F8</kbd></li>
+</ul>
+</li>
+<li>在几处编辑位置跳转：<kbd>Alt</kbd>+<kbd>←/→</kbd></li>
+<li>定位到括号处：<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>\</kbd></li>
+</ul>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>块状选择<ul>
+<li>纯键盘的：<kbd>Ctrl</kbd> + <kbd>Shift</kbd>+<kbd>Alt</kbd> + <kbd>↑/↓/←/→</kbd></li>
+<li>纯鼠标的：<strong>鼠标中键拖动</strong></li>
+<li>键鼠合作的： <kbd>Shift</kbd>+<kbd>Alt</kbd>+ <strong>鼠标左键</strong></li>
+</ul>
+</li>
+<li>添加上一行或下一行光标，<kbd>Ctrl</kbd>+<kbd>Alt</kbd> + <kbd>↑/↓</kbd></li>
+<li>在行尾添加光标： <kbd>Ctrl</kbd>+<kbd>Shift</kbd> + <kbd>I</kbd></li>
+<li>选择所有匹配词： <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></li>
+<li>选择下一个匹配词， <kbd>Ctrl</kbd>+<kbd>D</kbd></li>
+<li>移动行位置，<kbd>alt</kbd>+<kbd>↑/↓</kbd></li>
+<li>复制当前行并粘贴到下一行，<kbd>Shift</kbd>+<kbd>Alt</kbd> + <kbd>↑/↓</kbd></li>
+</ul>
+<h2 id="代码相关"><a href="#代码相关" class="headerlink" title="代码相关"></a>代码相关</h2><ul>
+<li>重命名符号：<kbd>F2</kbd></li>
+<li>格式化代码:<ul>
+<li>整体格式化： <kbd>shift</kbd>+<kbd>alt</kbd>+<kbd>K</kbd></li>
+<li>选择格式化：<kbd>Ctrl</kbd>+<kbd>K</kbd>;<kbd>Ctrl</kbd>+<kbd>F</kbd></li>
+</ul>
+</li>
+<li>代码提示<ul>
+<li><kbd>Ctrl</kbd>+<kbd>Space</kbd></li>
+<li>提示参数：<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Space</kbd></li>
+</ul>
+</li>
+<li>定义实现<ul>
+<li>转到定义：<kbd>F12</kbd></li>
+<li>查看定义：<kbd>Alt</kbd>+<kbd>F12</kbd></li>
+<li>查看调用：<kbd>Shift</kbd>+<kbd>F12</kbd></li>
+<li>跳转实现：<kbd>Ctrl</kbd>+<kbd>F12</kbd></li>
+</ul>
+</li>
+<li>去掉行尾空格： <kbd>Ctrl</kbd>+<kbd>K</kbd>;<kbd>Ctrl</kbd>+<kbd>X</kbd></li>
+</ul>
+<h1 id="VsCode插件"><a href="#VsCode插件" class="headerlink" title="VsCode插件"></a>VsCode插件</h1><ul>
+<li>Code Runner</li>
+<li>Prettier, 代码格式化</li>
+<li>GitLens, git增强插件<ul>
+<li>Git History， 图形化 <code>git log</code></li>
+</ul>
+</li>
+<li>Programming Languages<ul>
+<li>Python</li>
+<li>C/C++</li>
+</ul>
+</li>
+<li>Settings Sync， 同步vscode配置<ul>
+<li>安装后欢迎界面，授权登陆Github</li>
+<li><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>U</kbd></li>
+</ul>
+</li>
+<li>Markdown All in One</li>
+<li>PicGo， 图床插件</li>
+<li>Polacode, 代码图片分享</li>
+<li>Path Autocomplete，文件路径自动补全。</li>
+<li>Document This，快速生成注释。</li>
+<li>Bracket Pair Colorizer，括号配对着色，方便查看多层嵌套的代码。</li>
+</ul>
+<h1 id="Snippet规则"><a href="#Snippet规则" class="headerlink" title="Snippet规则"></a>Snippet规则</h1><ul>
+<li>Snippet， 代码片， 输入一小段字符串， 生成预定义代码模板， <strong>辅助快速输入</strong></li>
+<li>vscode代码块配置<ul>
+<li><strong>纯鼠标：</strong><ul>
+<li>文件-&gt;首选项-&gt;用户代码片段</li>
+<li>左下角齿轮-&gt;用户代码片段</li>
+</ul>
+</li>
+<li><strong>纯键盘：</strong><kbd>Ctrl</kbd>+<kbd>shift</kbd>+<kbd>P</kbd> -&gt; <code>snippet</code></li>
+</ul>
+</li>
+<li>可在Vscode应用商店安装对应的snippet</li>
+<li>snippet的自动补全<ul>
+<li><kbd>Ctrl</kbd>+<kbd>Space</kbd></li>
+<li><kbd>Tab</kbd>， 需启用， <code>&quot;editor.tabCompletion&quot;: &quot;on&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="语法结构（4部分）"><a href="#语法结构（4部分）" class="headerlink" title="语法结构（4部分）"></a>语法结构（4部分）</h2><ul>
+<li><strong>prefix</strong>：输入的一小段字符串，支持N:1</li>
+<li>scope：指定代码适用的语言模式，可选， <strong>仅用于全局代码片使用</strong></li>
+<li><strong>body</strong>: 预定义代码模板， <strong>布局与控制</strong></li>
+<li>description： 可选， 描述， 代码片在IntelliSense 中的「介绍」</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//举个例子, in file 'Code/User/snippets/javascript.json'</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"For Loop"</span>: &#123;</span><br><span class="line">    <span class="attr">"prefix"</span>: [<span class="string">"for"</span>, <span class="string">"for-const"</span>],</span><br><span class="line">    <span class="attr">"body"</span>: [<span class="string">"for (const $&#123;2:element&#125; of $&#123;1:array&#125;) &#123;"</span>, <span class="string">"\t$0"</span>, <span class="string">"&#125;"</span>],</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"A for loop."</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>prefix</strong>, 支持N:1, 多个前缀对应同一个代码模板时， 定义为数组<ul>
+<li><code>&quot;prefix&quot;: [ &quot;header&quot;, &quot;stub&quot;, &quot;copyright&quot;],</code></li>
+</ul>
+</li>
+<li><strong>body</strong>： 代码模板主题， 每个字符串代表一行<ul>
+<li><strong>tabstops</strong>, 制表符， 使用tab可以让光标在snippet内跳转<ul>
+<li><code>${n}</code>, 如<code>$1, $2</code> 指定光标位置, 数字大小表示先后顺序<ul>
+<li><code>$0</code>, 为光标最终位置</li>
+</ul>
+</li>
+<li>相同序号会同步更新</li>
+</ul>
+</li>
+<li><strong>placeholders</strong>, 占位符， 带有默认值的tabstops<ul>
+<li><code>${1:foo}</code>, 默认值为foo, 跳转到时自动全选， 方便修改</li>
+<li>利于提供默认值或作为输入提示</li>
+<li>结构体的snippets: <code>struct ${1:name_t} {\n\t$2\n};</code></li>
+</ul>
+</li>
+<li><strong>choice</strong>, 可选项， 多个默认值， 选择其中一个<ul>
+<li><code>${1|one,two,three|}</code></li>
+</ul>
+</li>
+<li><strong>variables</strong>, <strong>变量</strong><ul>
+<li><code>$name</code>或<code>${name:default}</code>可以插入变量的值</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><ul>
+<li>内置变量<ul>
+<li><code>TM_SELECTED_TEXT</code>：当前选定的文本或空字符串；<ul>
+<li>注：<strong>选定后</strong>通过在命令窗口点选「插入代码片段」插入。</li>
+</ul>
+</li>
+<li><code>TM_CURRENT_LINE</code>：当前行的内容；</li>
+<li><code>TM_CURRENT_WORD</code>：光标所处单词或空字符串<ul>
+<li>注：所谓光标一般为文本输入处那条闪来闪去的竖线，该项可定制。单词使用 VSCode 选词（Word Wrap）器选择。</li>
+<li>只可选择英文单词，没有针对宽字符优化过，它甚至无法识别宽字符的标点符号。</li>
+</ul>
+</li>
+<li>行号<ul>
+<li><code>TM_LINE_INDEX</code>：zero-index based</li>
+<li><code>TM_LINE_NUMBER</code>：one-index based</li>
+</ul>
+</li>
+<li>文件相关<ul>
+<li><code>TM_FILENAME</code>：当前文档的文件名；</li>
+<li><code>TM_FILENAME_BASE</code>：当前文档的文件名（不含后缀名）；</li>
+<li><code>TM_DIRECTORY</code>：当前文档所在目录；</li>
+<li><code>TM_FILEPATH</code>：当前文档的全路径；</li>
+<li><code>WORKSPACE_NAME</code>：打开的工作区或目录的名称（而非完整路径）；</li>
+</ul>
+</li>
+<li><code>CLIPBOARD</code>：当前剪贴板中内容。</li>
+<li><strong>当前时间日期</strong><ul>
+<li>当年<ul>
+<li><code>CURRENT_YEAR</code>，四位年份</li>
+<li><code>CURRENT_YEAR_SHORT</code>, 年份后两位</li>
+</ul>
+</li>
+<li>当月<ul>
+<li><code>CURRENT_MONTH</code>， 数字月份</li>
+<li><code>CURRENT_MONTH_NAME</code> 当前月份的全称，如 July；</li>
+<li><code>CURRENT_MONTH_NAME_SHORT</code>: 当前月份的简称，如 Jul；</li>
+</ul>
+</li>
+<li>当日<ul>
+<li><code>CURRENT_DATE</code>: 当天月份第几天；</li>
+<li><code>CURRENT_DAY_NAME</code>: 当天周几，如 Monday；</li>
+<li><code>CURRENT_DAY_NAME_SHORT</code>: 当天周几的简称，如 Mon；</li>
+</ul>
+</li>
+<li>时：<code>CURRENT_HOUR</code>， 24小时制</li>
+<li>分：<code>CURRENT_MINUTE</code></li>
+<li>秒：<code>CURRENT_SECOND</code></li>
+<li>unix时间戳：<code>CURRENT_SECONDS_UNIX</code>：Unix 时间戳。</li>
+</ul>
+</li>
+<li>注释<ul>
+<li><code>BLOCK_COMMENT_START</code> 块注释上半段</li>
+<li><code>BLOCK_COMMENT_END</code>, 块注释下半段</li>
+<li><code>LINE_COMMENT</code>, 行注释</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="变量转换"><a href="#变量转换" class="headerlink" title="变量转换"></a>变量转换</h2><ul>
+<li><p>变量转换：将变量的值格式化后插入预定位置</p>
+</li>
+<li><p>语句：<code>${var_name/regular_expression/format_string/options}</code></p>
+</li>
+<li><p>regulare_expression, options 为正则表达式和匹配选项</p>
+<ul>
+<li><code>(?i)</code>：忽略大小写(CASE_INSENSITIVE)</li>
+<li><code>(?x)</code>：忽略空格字符(COMMENTS)</li>
+<li><code>(?s)</code>：<code>.</code>匹配任意字符，包括换行符（DOTALL）</li>
+<li><code>(?m)</code>：多行模式（MULTILINE）</li>
+<li><code>(?u)</code>：对Unicode符大小写不敏感（UNICODE_CASE），必须启用<strong>CASE_INSENSITIVE</strong></li>
+<li><code>(?d)</code>：只有’\n’才被认作一行的中止（UNIX_LINES）</li>
+</ul>
+</li>
+<li><p>format_string为格式化字符串, </p>
+<ul>
+<li>普通文本 + 格式化控制符</li>
+<li>格式化控制符(7种)<ul>
+<li><code>$n</code>, <code>${n}</code>, 捕捉项， 正则涉及括号分组时， 每个括号内为一个匹配项，未分组则无捕捉项</li>
+<li>根据格式化控制符进行捕捉项的替换， 形成新的字符串， <strong>替换匹配到的字符串</strong><ul>
+<li>形成的新字符串格式与format_string格式一致</li>
+<li>匹配成功， 新字符串替换匹配项<ul>
+<li>捕获成功， 捕获项为捕获分组内容</li>
+<li>捕获失败， 捕获项为空</li>
+</ul>
+</li>
+<li>匹配失败， 新字符串替换变量</li>
+</ul>
+</li>
+<li><code>${n:/upcase}</code>，<code>${n:/downcase}</code>， <code>${n:/capitalize}</code>：匹配后<strong>捕捉项变更大小写</strong></li>
+<li><code>${n:+if}</code>,  只处理成功的捕获项<ul>
+<li>匹配成功捕获成功， 将<code>if</code>所述语句完全替换正则表达式匹配项捕获分组。</li>
+<li>匹配成功捕获失败，捕获项为空</li>
+<li>匹配失败， 不变</li>
+</ul>
+</li>
+<li><code>${n:?if:else}</code>, 类似于三目运算符的操作, 成功和失败均处理<ul>
+<li>匹配成功且捕捉成功， 将<code>if</code>所述语句完全<strong>替换捕获项</strong>；</li>
+<li>匹配成功捕捉失败，将<code>else</code>所述语句完全<strong>替换捕获项位置</strong>；</li>
+<li>匹配失败，<code>else</code>所述语句即为处理后的变量</li>
+</ul>
+</li>
+<li><code>${n:-else}</code>, <code>${n:else}</code>， 只处理失败的<ul>
+<li>匹配成功捕捉成功，捕捉项不变</li>
+<li>匹配成功捕捉失败，将<code>else</code>所述语句<strong>完全替换正则表达式匹配项</strong>；</li>
+<li>匹配失败，<code>else</code>所述语句即为处理后的变量</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$&#123;TM_FILENAME/(.*)\\..+$/$1/&#125;</span></span><br><span class="line">  |           |         |  |</span><br><span class="line">  |           |         |  |-&gt; 没有选项</span><br><span class="line">  |           |         |</span><br><span class="line">  |           |         |-&gt; 第一个捕捉项</span><br><span class="line">  |           |             </span><br><span class="line">  |           |</span><br><span class="line">  |           |-&gt; 正则表达式，捕获文件名， 不包含后缀名</span><br><span class="line">  |               就是浪催的， 不如变量直接用 TM_FILENAME_BASE</span><br><span class="line">  |</span><br><span class="line">  |-&gt; 变量名， 当前文档的文件名</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例， 文件名为global-js.json</span></span><br><span class="line"><span class="comment"># 则 $TM_FILENAME_BASE: global-js</span></span><br><span class="line"><span class="comment"># $&#123;var_name/regular_expression/$1/options&#125;</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(global).*/$1/&#125;</span>				<span class="comment">#匹配成功，捕获成功，global</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># $&#123;var_name/regular_expression/$&#123;1:/upcase&#125;/options&#125;</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(global).*/$&#123;1:/upcase&#125;</span>/&#125;	<span class="comment">#匹配成功捕获成功，变更为大写， GLOBAL</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># $&#123;var_name/regular_expression/$&#123;1:+if&#125;/options&#125;</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(glo)(bal)/$&#123;1:+if&#125;</span>&amp;<span class="variable">$&#123;2:+if&#125;</span>/&#125;			<span class="comment">#匹配成功，捕获成功，if&amp;if-js</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/global/$&#123;1:+if&#125;</span>&amp;<span class="variable">$&#123;2:+if&#125;</span>/&#125;				<span class="comment">#匹配成功，捕获失败，&amp;&amp;-js</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(globald)/$&#123;1:+if&#125;</span>&amp;<span class="variable">$&#123;2:+if&#125;</span>/&#125;			<span class="comment">#匹配失败，不变，global-js</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># $&#123;var_name/regular_expression/$&#123;1:?if:else&#125;/options&#125;</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(glo)(bal)/$&#123;1:?if:else&#125;</span>&amp;<span class="variable">$&#123;2:?if:else&#125;</span>/&#125;	<span class="comment">#匹配成功，捕获成功, if&amp;if-js</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/global/$&#123;1:?if:else&#125;</span>&amp;<span class="variable">$&#123;2:?if:else&#125;</span>/&#125;		<span class="comment">#匹配成功，捕获失败， else&amp;else-js</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/globald/$&#123;1:?if:else&#125;</span>&amp;<span class="variable">$&#123;2:?if:else&#125;</span>/&#125;	<span class="comment">#匹配失败，else&amp;else</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># $&#123;var_name/regular_expression/$&#123;1:else&#125;/options&#125;</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(glo)(bal)/$&#123;1:else&#125;</span>&amp;<span class="variable">$&#123;2:else&#125;</span>/&#125;			<span class="comment">#匹配成功，捕获成功, glo&amp;bal-js</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/global/$&#123;1:else&#125;</span>&amp;<span class="variable">$&#123;2:else&#125;</span>/&#125;				<span class="comment">#匹配成功，捕获失败， else&amp;else-js</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/globald/$&#123;1:else&#125;</span>&amp;<span class="variable">$&#123;2:else&#125;</span>/&#125;			<span class="comment">#匹配失败，else&amp;else</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># $&#123;var_name/regular_expression/text/options&#125;</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(global)/text/&#125;</span>				<span class="comment">#匹配成功， 替换匹配项, text-js</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 匹配成功与否与整个正则有关， 捕获成功与否与某个分组有关</span></span><br><span class="line"><span class="variable">$&#123;TM_FILENAME_BASE/(glo)(bal)/$&#123;1:+if&#125;</span>&amp;<span class="variable">$&#123;2:+if&#125;</span>&amp;<span class="variable">$&#123;3:+if&#125;</span>/&#125;  <span class="comment">#匹配成功，第一分组匹配成功第二分组匹配成功，第三分组捕获失败if&amp;if&amp;-js</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><strong><code>Placeholder Transform</code></strong> 本质与<code>Variable Transform</code>的第8条一致，只是<strong>正则表达式变为占位符常量</strong></li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//代码片段</span></span><br><span class="line">"transform": &#123;</span><br><span class="line">    "prefix": "tr",</span><br><span class="line">    "body": "$1 -&gt; $&#123;1/placeholder/text/&#125;",   //输入: placeholder 输出: placeholder -&gt; text</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://juejin.im/post/5c45b92751882525487c5c66" target="_blank" rel="noopener">在 vscode 中写 Markdown </a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/56699805" target="_blank" rel="noopener">在 VSCode 下用 Markdown Preview Enhanced 愉快地写文档</a></li>
+<li><a href="https://code.visualstudio.com/docs/editor/userdefinedsnippets" target="_blank" rel="noopener">snippet官方文档</a></li>
+<li><a href="https://juejin.im/post/5caab98af265da24e238d9d2" target="_blank" rel="noopener">【VSC】Snippets不完全指南</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+    <div>
+        <div class="reward-container">
+  <div>如果这篇文章对您很有帮助，不妨</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hosted 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hosted 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+
+    
+    </div>
+        
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<div>
+<ul class="my-post-copyright">
+    <li class="post-copyright-title">
+    <strong>本文标题： </strong>VSCode
+    </li>
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hosted
+  </li>
+  <li class="post-copyright-date">
+    <strong>发布时间： </strong>2019年11月29日 - 16:43:03 
+  </li>
+  <li class="post-copyright-update">
+    <strong>最后更新： </strong>2020年07月26日 - 15:41:17
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://hosted-code.github.io/posts/3804610536.html" title="VSCode">http://hosted-code.github.io/posts/3804610536.html</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://hosted-code.github.io/posts/3804610536.html"  aria-label="复制成功！"></i></span>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+<style>
+.my-post-copyright {
+    width: 85%;
+    max-width: 45em;
+    margin: 2.8em auto 0;
+    padding: .5em 1em;
+    border: 1px solid #d3d3d3;
+    font-size: .93rem;
+    line-height: 1.6em;
+    word-break: break-all;
+    background: rgba(255,255,255,.4);
+    box-shadow: 0 0 10px rgba(0,0,0,.12);
+    color: #555;
+}
+</style>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    });  
+</script>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Snippet/" rel="tag"># Snippet</a>
+              <a href="/tags/Tool/" rel="tag"># Tool</a>
+              <a href="/tags/CheatSheet/" rel="tag"># CheatSheet</a>
+          </div>
+      
+  <div class="popular-posts-header">📚  相关文章推荐</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/4059706354.html" rel="bookmark">Regexp 使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/1645038700.html" rel="bookmark">Vim 使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/3662325414.html" rel="bookmark">Hexo写作技巧</a></div>
+    </li>
+  </ul>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/426584999.html" rel="prev" title="Hexo 博客搭建">
+      <i class="fa fa-chevron-left"></i> Hexo 博客搭建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/37349663.html" rel="next" title="Hexo博客部署">
+      Hexo博客部署 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+    <div class="post-spread">
+    <!-- 引入share.js -->
+        
+               <center><div data-weibo-title="分享到微博" data-qq-title="分享到QQ" data-douban-title="分享到豆瓣" class="social-share" class="share-component" data-disabled="twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣">分享到：</div></center>
+        
+    </div>
+</div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#VsCode教程"><span class="nav-number">1.</span> <span class="nav-text">VsCode教程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VsCode基本设置"><span class="nav-number">2.</span> <span class="nav-text">VsCode基本设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VsCode快捷键"><span class="nav-number">3.</span> <span class="nav-text">VsCode快捷键</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编辑"><span class="nav-number">3.1.</span> <span class="nav-text">编辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导航"><span class="nav-number">3.2.</span> <span class="nav-text">导航</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择"><span class="nav-number">3.3.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码相关"><span class="nav-number">3.4.</span> <span class="nav-text">代码相关</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VsCode插件"><span class="nav-number">4.</span> <span class="nav-text">VsCode插件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Snippet规则"><span class="nav-number">5.</span> <span class="nav-text">Snippet规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法结构（4部分）"><span class="nav-number">5.1.</span> <span class="nav-text">语法结构（4部分）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">5.2.</span> <span class="nav-text">变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变量转换"><span class="nav-number">5.3.</span> <span class="nav-text">变量转换</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">6.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hosted"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">Hosted</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:whcycle493@gmail.com" title="E-Mail → mailto:whcycle493@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/poem_qianmo" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;poem_qianmo" rel="noopener" target="_blank">浅墨的游戏编程Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hellogithub.com/" title="https:&#x2F;&#x2F;hellogithub.com&#x2F;" rel="noopener" target="_blank">HelloGitHub</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/yinwenjie" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;yinwenjie" rel="noopener" target="_blank">说好不能打脸</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://overapi.com/" title="http:&#x2F;&#x2F;overapi.com&#x2F;" rel="noopener" target="_blank">OverAPI</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.52im.net/" title="http:&#x2F;&#x2F;www.52im.net&#x2F;" rel="noopener" target="_blank">即时通信网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bestzuo.cn/" title="https:&#x2F;&#x2F;bestzuo.cn&#x2F;" rel="noopener" target="_blank">Sanarous(Hexo)</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hosted</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">115k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:45</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    new Valine({
+        lang: 'zh-cn',
+        admin_email: 'whcycle493@gmai.com',
+        el: '#comments' ,
+        appId: 'XXlFmaUUu3a48dG4Xg1N3xUT-gzGzoHsz',
+        appKey: 'Ah7OceuwXxogj5DkH3U0tNi8',
+        emoticon_url: 'https://cloud.panjunwen.com/alu',
+        emoticon_list: ["狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","暗地观察.png"],
+        placeholder: '',
+  });
+  </script>
+
+
+   <!--崩溃欺骗-->
+  
+    <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+  
+  <!-- 点击特效 -->
+  
+    
+      <script src="/js/src/fireworks.js"></script>
+    
+  
+  <!-- 背景特效 -->
+  
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+  
+  <!-- 分享功能 -->
+  <script src="/dist/js/social-share.min.js"></script>
+  <!-- 卡片链接 -->
+  <script type="text/javascript" src="/js/src/linkcard.js"></script>
+</body>
+</html>

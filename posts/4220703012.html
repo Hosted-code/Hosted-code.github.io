@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-bounce.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://Hosted-code.github.io').hostname,
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"mac"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: true,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="setuid从passwd说起1234hosted@Desktop:~$ l &#x2F;etc&#x2F;passwd &#x2F;etc&#x2F;shadow &#x2F;usr&#x2F;bin&#x2F;passwd-rw-r--r-- 1 root root 1.6K Mar  9 11:09 &#x2F;etc&#x2F;passwd-rw-r----- 1 root shadow 1026 Mar  9 11:13 &#x2F;etc&#x2F;shadow-rwsr-xr-x 1 roo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux权限相关">
+<meta property="og:url" content="http:&#x2F;&#x2F;hosted-code.github.io&#x2F;posts&#x2F;4220703012.html">
+<meta property="og:site_name" content="Hosted&#39;s Blog">
+<meta property="og:description" content="setuid从passwd说起1234hosted@Desktop:~$ l &#x2F;etc&#x2F;passwd &#x2F;etc&#x2F;shadow &#x2F;usr&#x2F;bin&#x2F;passwd-rw-r--r-- 1 root root 1.6K Mar  9 11:09 &#x2F;etc&#x2F;passwd-rw-r----- 1 root shadow 1026 Mar  9 11:13 &#x2F;etc&#x2F;shadow-rwsr-xr-x 1 roo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-06-25T09:36:51.000Z">
+<meta property="article:modified_time" content="2020-06-27T19:47:56.000Z">
+<meta property="article:author" content="Hosted">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Capabilities">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://hosted-code.github.io/posts/4220703012.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Linux权限相关 | Hosted's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <link rel="stylesheet" href="/dist/css/share.min.css">
+<link rel="alternate" href="/atom.xml" title="Hosted's Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hosted's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-links">
+
+    <a href="/links/" rel="section"><i class="fa fa-fw fa-user-plus"></i>友链</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+<div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hosted-code.github.io/posts/4220703012.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.png">
+      <meta itemprop="name" content="Hosted">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hosted's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux权限相关
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-25 09:36:51" itemprop="dateCreated datePublished" datetime="2020-06-25T09:36:51+00:00">2020-06-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/posts/4220703012.html#comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/posts/4220703012.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>13 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="setuid"><a href="#setuid" class="headerlink" title="setuid"></a>setuid</h1><h2 id="从passwd说起"><a href="#从passwd说起" class="headerlink" title="从passwd说起"></a>从passwd说起</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hosted@Desktop:~$ l /etc/passwd /etc/shadow /usr/bin/passwd</span><br><span class="line">-rw-r--r-- 1 root root 1.6K Mar  9 11:09 /etc/passwd</span><br><span class="line">-rw-r----- 1 root shadow 1026 Mar  9 11:13 /etc/shadow</span><br><span class="line">-rwsr-xr-x 1 root root  59K Mar 23  2019 /usr/bin/passwd</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>要修改, 需通过 <code>passwd</code> 命令修改 <code>/etc/passwd</code>, <code>/etc/shadow</code><ul>
+<li><code>/etc/passwd</code>, 只有属组root有w权限</li>
+<li><code>passwd</code> 命令root和普通用户都可以执行</li>
+<li><code>passwd</code> 命令权限为rws, <strong>设置了setuid</strong>, <strong>使其以命令属主的名义执行</strong></li>
+<li>普通用户执行 <code>passwd</code> 命令时, euid变为passwd的属主root, 去修改 <code>/etc/passwd</code></li>
+</ul>
+</li>
+<li><code>setuid</code>, 让执行该命令的用户以该命令拥有者的权限去执行</li>
+</ul>
+<h2 id="有什么问题-提权"><a href="#有什么问题-提权" class="headerlink" title="有什么问题? 提权"></a>有什么问题? 提权</h2><ul>
+<li>可能误设setuid导致可执行文件实现提权</li>
+<li>普通用户通过vi编辑自己无权访问(r/w)的文件, 会报 <strong>Permission Denied</strong></li>
+<li>普通用户尝试kill掉root启动的进程, 会报错, <strong>Operation not permitted</strong></li>
+<li>这是合理的设置, 普通用户权限会被限制</li>
+<li>但正如上述passwd, 以及ping命令来说, 某些场景下一些命令是普通用户也需要进行的, 因此被赋予了setuid<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hosted@Desktop:~$ sudo find / -perm /u=s</span><br><span class="line">[sudo] password <span class="keyword">for</span> hosted: </span><br><span class="line">/bin/fusermount</span><br><span class="line">/bin/mount</span><br><span class="line">/bin/ping</span><br><span class="line">/bin/su</span><br><span class="line">/bin/umount</span><br><span class="line">...</span><br></pre></td></tr></table></figure></li>
+<li>但若是setuid被滥用了, 比如vi, 比如kill, 比如find<ul>
+<li>给vi赋予setuid, 因为属主是root, 普通用户执行vi便以root的身份去执行, 可进行任意文件的读写操作</li>
+<li>给kill赋予setuid, 普通用户执行kill, 就有了root的身份, 可以kill掉任何进程</li>
+<li>给find赋予setuid, <code>-exec</code> 便可以以root的身份执行命令</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="SetUID的使用"><a href="#SetUID的使用" class="headerlink" title="SetUID的使用"></a>SetUID的使用</h2><ul>
+<li><p>setuid只对可执行文件有效, 有 <code>x</code>, 没有 <code>x</code> 权限, 设置setuid会被标记为 <code>S</code></p>
+</li>
+<li><p>用户要对该文件有执行权限</p>
+<ul>
+<li>无法执行, setuid不会生效</li>
+<li>执行过程中, setuid生效以属主身份执行</li>
+</ul>
+</li>
+<li><p>setuid只在执行过程中有效, 执行完毕, 身份也随之消失</p>
+</li>
+<li><p>防范setuid滥用</p>
+<ul>
+<li>敏感目录严格控制写权限</li>
+<li>谨慎授予setuid的进程</li>
+<li>敏感分区禁用setuid<ul>
+<li>存放数据, 用来备份的分区等</li>
+<li><code>mount -o remount nosuid /usr1</code>, 这种是临时禁用</li>
+<li><code>/etc/fstab</code>, default后加<strong>nosuid</strong>, 然后重新挂载</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>root执行属主为普通用户, 设置setuid的可执行文件会怎样</p>
+</li>
+</ul>
+<h1 id="Linux-Cap能力"><a href="#Linux-Cap能力" class="headerlink" title="Linux Cap能力"></a>Linux Cap能力</h1><h2 id="从ping开始谈起"><a href="#从ping开始谈起" class="headerlink" title="从ping开始谈起"></a>从ping开始谈起</h2><ul>
+<li>ping 同样具有setuid</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hosted@Desktop:~$ l /bin/ping</span><br><span class="line">-rwsr-xr-x 1 root root 63K Mar 10  2017 /bin/ping</span><br><span class="line">hosted@Desktop:~$ chmod u<span class="_">-s</span> /bin/ping</span><br><span class="line">hosted@Desktop:~$ ls -l /bin/ping</span><br><span class="line">-rwxr-xr-x 1 root root 64424 Mar 10  2017 /bin/ping</span><br><span class="line">hosted@Desktop:~$ ping 127.0.0.1 -c 4</span><br><span class="line">ping: socket: Operation not permitted</span><br></pre></td></tr></table></figure>
+<ul>
+<li>去掉ping的suid, ping出现报错, <strong>socket: Operation not permitted</strong></li>
+<li>ping只是需要socket的权限, 就将root的权限临时给它, 这样带来了<strong>安全隐患</strong><ul>
+<li>只是需要<strong>RAW套接字建立必要ICMP数据包</strong>，除此之外的其它root权限对这个程序都是没有必要的</li>
+</ul>
+</li>
+<li>大多数情况下我们只是需要一小部分特权, 但是使用suid, 却可以拥有root的全部权限. 这样一旦文件存在漏洞, 极有可能被利用, 成功被提权, 以root身份执行其他操作, 因此<strong>suid某种程度上增加了攻击面</strong></li>
+<li>suid这种权限控制方法有点粗糙, 因此从kernel 2.2开始, linux实现了一种新机制Capabilities, 对权限进行更<strong>精细的控制</strong><ul>
+<li>本质上就是将内核调用分门别类，具有相似功能的内核调用被分到同一组中</li>
+<li>将root权限细分为不同的领域, 划分能力, 分别启用禁用, 在进行特权操作时, 判别该领域能力是否启用, 并以此决定能否执行该特权操作</li>
+</ul>
+</li>
+<li>回到ping命令上来, 收回ping的suid权限, ping报错socket没有操作权限, 那么给ping加上socket相关能力 <code>cap_net_raw</code> 试一下<ul>
+<li><code>ping</code> 需要使用raw套接字, 构建icmp包</li>
+<li><code>cap_net_raw</code>, 允许使用原始(raw)套接字<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">hosted@Desktop:~$ sudo <span class="built_in">setcap</span> cap_net_raw+ep /bin/ping</span><br><span class="line">[sudo] password <span class="keyword">for</span> hosted: </span><br><span class="line">hosted@Desktop:~$ <span class="built_in">getcap</span> /bin/ping</span><br><span class="line">/bin/ping = cap_net_raw+ep</span><br><span class="line">hosted@Desktop:~$ ping 127.0.0.1</span><br><span class="line">PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.</span><br><span class="line">64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.208 ms</span><br><span class="line">64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.198 ms</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>相比setuid, 他只是<strong>具有必要的特权, 最大化程度上减少了系统的攻击面</strong></li>
+<li>能力这种, 也是需要只满足必要的能力, <strong>能力最小化</strong>, 若能力不做限制, 集齐38种能力, 那和不受限制也没什么区别</li>
+</ul>
+<h2 id="能力集"><a href="#能力集" class="headerlink" title="能力集"></a>能力集</h2><ul>
+<li><p><strong>添加能力</strong>, <code>sudo setcap cap_net_raw+ep /bin/ping</code></p>
+<ul>
+<li>此处添加能力为<strong>文件能力</strong>, 具体看下文</li>
+<li><code>+</code>, 为添加指定能力, <code>-</code>, 为将指定能力从能力集中移除, <code>=</code>, 指定能力</li>
+<li><code>eip</code>, 为linux中的三个能力集, <strong>Effective</strong>, <strong>Inheritable</strong> 和 <strong>Permitted</strong></li>
+<li><code>-r</code>, 为清除能力</li>
+</ul>
+</li>
+<li><p><strong>查看能力</strong></p>
+<ul>
+<li><code>getcap /bin/ping</code></li>
+<li><code>cat /proc/{pid}/status | grep Cap</code>, 包含进程的五个能力集信息, 通过16进制展示</li>
+<li><code>capsh --decode=302b</code>, 根据得到的16进制数字查看解码出来的cap能力<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">hosted@Desktop:~$ cat /proc/869/status | grep Cap</span><br><span class="line">CapInh:	0000000000000000</span><br><span class="line">CapPrm:	0000001fffffffff</span><br><span class="line">CapEff:	0000001fffffffff</span><br><span class="line">CapBnd:	0000001fffffffff</span><br><span class="line">hosted@Desktop:~$ capsh --decode=302b</span><br><span class="line">0x000000000000302b=cap_chown,cap_dac_override,cap_fowner,cap_kill,cap_net_admin,cap_net_raw</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><code>man capabilities</code>, 查看能力集相关, 随着内核版本的更新, 截止到4.4.0, cap能力目前共支持38种能力</p>
+<ul>
+<li>0~37, 最大能力值则为 <code>0x3fffffffff</code></li>
+<li>具体对应位可在该文件查看, <code>/usr/include/linux/capability.h</code><ul>
+<li>ubuntu 18.04.2 LTS存放在上述路径</li>
+<li>18.04.3 LTS在上述路径下不存在该文件, find后, 该文件存放在该路径下 <code>/usr/src/linux-headers-5.0.0-23/include/uapi/linux/capability.h</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><strong>Capabilities</strong>是细分到线程的，即每个线程可以有自己的capabilities。而完整的capabilities实现，除了对线程的capabilities具有以下相关功能：</p>
+<ul>
+<li>对线程(进程)的特权操作，内核续检查其该项特权能力是否启用的</li>
+<li>内核提供系统调用，用于获取或修改线程(进程)的能力</li>
+<li>文件系统应支持对于<strong>文件能力</strong>的支持, 文件能力在内核2.6.24之后完成支持<ul>
+<li>能力机制可附加在可执行文件中</li>
+<li>文件类型</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>以下，将分别介绍线程（进程）的capabilities和文件的capabilities</p>
+<h2 id="线程-进程-能力"><a href="#线程-进程-能力" class="headerlink" title="线程(进程)能力"></a>线程(进程)能力</h2><ul>
+<li>进程中共有四种能力集合</li>
+<li>上述章节有提到查看进程能力集的方法<ul>
+<li><code>cap /proc/{pid}/status | grep Cap</code>, 该种方法可查到五种能力集的数值, 需通过capsh 解码为人类可读模式</li>
+<li><code>getpcaps {pid}</code>, 结果为人类可读的</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">hosted@Desktop:~$ ps au</span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">hosted      46  0.0  0.0  18396  4832 pts/0    Ss   09:40   0:06 -bash</span><br><span class="line">hosted      99  0.0  0.0  17504  3636 pts/1    Ss   09:42   0:06 -bash</span><br><span class="line">root       869  0.0  0.0  11504   548 pts/1    S    12:40   0:00 nc -lp 5555</span><br><span class="line">root      1224  0.0  0.0  16520  1664 pts/1    S    15:02   0:00 su -</span><br><span class="line">root      1225  0.0  0.0  16924  3420 pts/1    S    15:02   0:00 -su</span><br><span class="line">hosted    1747  0.0  0.0  17380  1912 pts/0    R    19:46   0:00 ps au</span><br><span class="line">hosted@Desktop:~$ getpcaps 869</span><br><span class="line">Capabilities <span class="keyword">for</span> `869`: = cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend+ep</span><br><span class="line">hosted@Desktop:~$ getpcaps 46</span><br><span class="line">Capabilities <span class="keyword">for</span> `46`: =</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>未专门进行能力值设置的进程, 一般都根据特权与否来划分能力值</p>
+<ul>
+<li>特权进程<strong>基本为全能力</strong>, 受系统边界能力 <code>cap_bset</code> 限制, 此时root进程能力等于系统边界能力</li>
+<li>普通进程为0能力, 不能进行任何特权操作</li>
+</ul>
+</li>
+<li><p><code>cap_bset</code> 不属于进程能力, 其为系统边界能力(系统完整能力), 任何进程能力均小于等于 <code>cap_bset</code></p>
+<ul>
+<li>能力边界集(capability bounding set)是系统中所有进程允许保留的能力</li>
+<li>如果在能力边界集中不存在某个能力，那么<strong>系统中的所有进程都没有这个能力，即使以超级用户权限执行的进程也一样</strong>。</li>
+<li>查看边界值: <code>cat /proc/sys/kernel/cap_last_cap</code>, 查看边界值, <code>sysctl -a</code></li>
+<li>root用户可以向能力边界集中写入新的值来修改系统保留的能力。但是要注意，root用户能够从能力边界集中删除能力，却不能再恢复被删除的能力，只有init进程能够添加能力。通常，一个能力如果从能力边界集中被删除，只有系统重新启动才能恢复。</li>
+</ul>
+</li>
+<li><p>四种进程能力</p>
+<ul>
+<li><strong><code>Permitted</code></strong>, 是一种<strong>规定</strong>, 描述进程所能拥有的<strong>能力上限</strong>, 是Inheritable和Effective的超集, 一个进程在Permitted集合中丢失一个能力，它无论如何不能再次获取该能力(除非特权用户再次赋予它)</li>
+<li><strong><code>Effective</code></strong>, 进程有效能力, <strong>进行特权操作是实际进行判别的能力集</strong><ul>
+<li>禁用能力时, <code>Permitted</code> 为永久禁止, 需要时只能特权用户再次赋予</li>
+<li><code>Effective</code> 为临时禁止, 需要时可从 <code>Permitted</code> 启用</li>
+</ul>
+</li>
+<li><strong><code>Inheritable</code></strong>, 执行 <code>exec()</code> 系运行其他命令时，能够被新命令<strong>继承的能力</strong><ul>
+<li>该能力集并不会自动继承给新进程, 即不会自动添加到新进程的 <code>Effective</code> 中</li>
+<li>只会影响新进程的 <code>Permitted</code> 集合, 下文有提到能力继承</li>
+</ul>
+</li>
+<li><strong><code>Ambient</code></strong>, <strong>能力掩码</strong>, 4.3之后新增加的一种能力集<ul>
+<li><code>Permitted</code> 和 <code>Inheritable</code> 未设置的, <code>Ambient</code> 也不能设置, <code>pA &lt; pP &amp; pI</code></li>
+<li><code>Permitted</code> 或 <code>Inheritale</code> 某能力关闭, <code>Ambient</code> 也随之关闭</li>
+<li>用户从特权用户到非特权用户后, <code>Ambient</code> 被清除</li>
+<li><code>ambient</code> 解决非root用户使用 <code>exec</code> 执行一个程序时候如何保留权限的问题。执行 <code>exec</code> 的时候，<code>cap_ambient</code> 会被添加到 <code>cap_permitted</code> 中，同时设置到 <code>cap_effective</code> 中。</li>
+<li><code>ambient</code> 的好处显而易见，举个例子，如果你将 <code>CAP_NET_ADMIN</code> 添加到当前进程的 <code>Ambient</code> 集合中，它便可以通过 <code>fork()</code> 和 <code>execve()</code> 调用 shell 脚本来执行网络管理任务，因为 <code>CAP_NET_ADMIN</code> 会自动继承下去。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">贴man手册原文</span><br><span class="line">Ambient (since Linux 4.3):</span><br><span class="line">	This  is a set of capabilities that are preserved across an execve(2) of a program that is not privileged.  The ambient capability set obeys the invariant that no capability can ever be ambient if it is not both permitted and inheritable.</span><br><span class="line">	The ambient capability set can be directly modified using prctl(2).  Ambient capabilities are automatically lowered if either of the corresponding permitted or inheritable capabilities is lowered.</span><br><span class="line">	Executing a program that changes UID or GID due to the set-user-ID or set-group-ID bits or executing a program that has any file capabilities set will clear the ambient set.  Ambient capabilities are added to the permitted set and assigned to the effective set when execve(2) is called.</span><br><span class="line"></span><br><span class="line">针对非特权进程execve的能力集</span><br><span class="line">prctl可以直接设置该能力集, permitted, inheritableg关闭某项能力, ambient也随之关闭</span><br><span class="line">setuid, setgid或有任何文件能力, Ambient集合会被清空,</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件能力"><a href="#文件能力" class="headerlink" title="文件能力"></a>文件能力</h2><ul>
+<li><p>上述通过<code>setcap</code> 赋予 <code>ping</code> 能力, 便是给可执行文件附加能力</p>
+<ul>
+<li><code>setcap</code> 一般用于二进制可执行文件。 <code>setcap</code> 用于脚本文件时无效</li>
+</ul>
+</li>
+<li><p>文件能力，保存在文件扩展属性中。修改这些扩展属性，需要具有 <code>CAP_SETFCAP</code> 的能力。</p>
+</li>
+<li><p><strong>文件与线程的 <code>capabilities</code>，共同决定了通过 <code>exec</code> 运行该文件后的 <code>capabilities</code></strong>。</p>
+</li>
+<li><p>文件的能力，需要 <strong>文件系统的支持</strong>。如果 <strong>文件系统使用了 <code>nosuid</code> 选项进行挂载，那么文件的 <code>capabilities</code> 将被忽略。</strong></p>
+</li>
+<li><p>文件能力包含三种</p>
+<ul>
+<li><strong>Permitted</strong>, 进程执行时, 该能力与线程的cap_bset做与运算, 结果加入进程的 <code>Permitted</code> 能力中</li>
+<li><strong>Inheritable</strong>, 该能力与进程中的 <code>Inheritable</code> 能力做与运算, 以确定进程在执行<code>execve</code>后新进程的 <code>Inheritable</code> 能力</li>
+<li><strong>Effective</strong>, 文件能力<strong>标志位</strong><ul>
+<li>根据 man 手册提到的, 文件的 <code>effective</code> 是<strong>一个bit, 不是一个集合</strong>, 如果设置为开启，那么在执行 <code>execve</code> 函数后，<code>Permitted</code> 集合中新增的 <code>capabilities</code> 会自动出现在进程的 <code>Effective</code> 集合中。</li>
+<li>按 <code>setcap</code> 的使用来说, <code>sudo setcap cap_net_raw+p /bin/ping</code>, 只给 <code>permitted</code> 添加 <code>cap_net_raw</code> 能力即可<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">贴man手册原文</span><br><span class="line">Effective:</span><br><span class="line">	This  is  not a set, but rather just a single bit.  If this bit is set, then during an execve(2) all of the new permitted capabilities for the thread are also raised in the effective set.  If this bit is not set, then after an execve(2), none of the new permitted capabilities is in the new effective set.</span><br><span class="line">	Enabling the file effective capability bit implies that any file permitted or inheritable capability that causes a thread to acquire the corresponding  permitted  capability  during  an execve(2) (see the transformation rules described below) will also acquire that capability in its effective set.  Therefore, when assigning capabilities to a file (setcap(8), cap_set_file(3), cap_set_fd(3)), if we specify the effective flag as being enabled for any capability, then the effective flag must  also  be specified as enabled for all other capabilities for which the corresponding permitted or inheritable flags is enabled.</span><br><span class="line"></span><br><span class="line">该位开启, permitted 能力加入进程Effective能力集中, 该位关闭, 没有新的 permitted 能力加入新的 effective 能力集中</span><br><span class="line">该位的开启表明文件的 permitted 或 inheritable 能力可加入到线程的能力中</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>迷惑行为? ping只加了permitted能力集, 进程能力Effective为0, 程序能正常执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">hosted@Desktop:~$ ls -l /bin/ping</span><br><span class="line">-rwxr-xr-x 1 root root 64424 Mar 10  2017 /bin/ping     <span class="comment">#没有suid</span></span><br><span class="line">hosted@Desktop:~$ <span class="built_in">getcap</span> /bin/ping</span><br><span class="line">/bin/ping = cap_net_raw+p</span><br><span class="line">hosted@Desktop:~$ sudo <span class="built_in">setcap</span> -r /bin/ping              <span class="comment">#此处清空文件能力, 文件本身没任何能力的会报错</span></span><br><span class="line">hosted@Desktop:~$ <span class="built_in">getcap</span> /bin/ping                      <span class="comment">#查看文件能力, 未回显即为未设置</span></span><br><span class="line">hosted@Desktop:~$ ping 127.0.0.1 -c 4                   <span class="comment">#没有suid, 没有能力, ping出现报错</span></span><br><span class="line">ping: socket: Operation not permitted</span><br><span class="line">hosted@Desktop:~$ sudo <span class="built_in">setcap</span> cap_net_raw+p /bin/ping   <span class="comment">#只在permitted添加cap_net_raw能力</span></span><br><span class="line">hosted@Desktop:~$ <span class="built_in">getcap</span> /bin/ping</span><br><span class="line">/bin/ping = cap_net_raw+p                               <span class="comment">#显示当前只在permitted能力集中有cap_net_raw能力</span></span><br><span class="line">hosted@Desktop:~$ ls -l /bin/ping</span><br><span class="line">-rwxr-xr-x 1 root root 64424 Mar 10  2017 /bin/ping     <span class="comment">#此时还是没有suid</span></span><br><span class="line">hosted@Desktop:~$ ping 127.0.0.1 -c 4                   <span class="comment">#ping 正常执行</span></span><br><span class="line">PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.</span><br><span class="line">64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.184 ms</span><br><span class="line">64 bytes from 127.0.0.1: icmp_seq=2 ttl=64 time=0.297 ms</span><br><span class="line">64 bytes from 127.0.0.1: icmp_seq=3 ttl=64 time=0.178 ms</span><br><span class="line">64 bytes from 127.0.0.1: icmp_seq=4 ttl=64 time=0.216 ms</span><br><span class="line">hosted@Desktop:~$ ps aux                                <span class="comment">#查看ping的进程号</span></span><br><span class="line">USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND</span><br><span class="line">...</span><br><span class="line">hosted     113  0.2  0.0  14724  1088 pts/1    S    18:39   0:00 ping 127.0.0.1   <span class="comment">#非特权进程, 进程号为113</span></span><br><span class="line">...</span><br><span class="line">hosted@Desktop:~$ getpcaps 113                          <span class="comment">#查看进程能力</span></span><br><span class="line">Capabilities <span class="keyword">for</span> `113`: = cap_net_raw+p                 <span class="comment">#进程能力中只有permitted中有能力</span></span><br><span class="line">hosted@Desktop:~$ cat /proc/113/status | grep Cap       <span class="comment">#另一种查看能力的方式, 辅证</span></span><br><span class="line">CapInh:	0000000000000000</span><br><span class="line">CapPrm:	0000000000002000</span><br><span class="line">CapEff:	0000000000000000                                <span class="comment">#进程Effective能力为空? 怎么判别过的</span></span><br><span class="line">CapBnd:	0000001fffffffff</span><br><span class="line">hosted@Desktop:~$ sudo <span class="built_in">setcap</span> -r /bin/ping              <span class="comment"># 再次清空能力</span></span><br><span class="line">hosted@Desktop:~$ <span class="built_in">getcap</span> /bin/ping                      </span><br><span class="line">hosted@Desktop:~$ sudo <span class="built_in">setcap</span> cap_net_raw+e /bin/ping   <span class="comment"># 只加个effective</span></span><br><span class="line">hosted@Desktop:~$ <span class="built_in">getcap</span> /bin/ping</span><br><span class="line">/bin/ping =</span><br><span class="line">hosted@Desktop:~$ ping 127.0.0.1</span><br><span class="line">ping: socket: Operation not permitted</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h1 id="Cap能力"><a href="#Cap能力" class="headerlink" title="Cap能力"></a>Cap能力</h1><ul>
+<li><code>Capability</code> 用<strong>更小的粒度控制超级管理员权限</strong>,可以避免使用 root 权限。</li>
+<li>软件开发者应该为二进制文件赋予<strong>最小权限</strong>，而不是使用强大的setuid。</li>
+<li><code>Capabilities</code> 的主要思想在于<strong>分割root用户的特权</strong>，即将root的特权分割成不同的能力，每种能力代表一定的特权操作</li>
+<li>在4.4 版本中, Linux将root权限划分为38种能力</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Cap能力</th>
+<th>序号</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><span class="label danger">CAP_CHOWN</span></td>
+<td>0</td>
+<td>修改文件属主,  属组, 允许使用 <code>chown</code></td>
+</tr>
+<tr>
+<td><span class="label danger">CAP_DAC_OVERRIDE</span></td>
+<td>1</td>
+<td>忽略对文件的所有DAC访问限制</td>
+</tr>
+<tr>
+<td><code>CAP_DAC_READ_SEARCH</code></td>
+<td>2</td>
+<td>忽略所有对读、搜索操作的限制,  <code>DAC_READ_SEARCH</code>是<code>DAC_OVERRIDE</code>的子集</td>
+</tr>
+<tr>
+<td><span class="label danger"> CAP_FOWNER</span></td>
+<td>3</td>
+<td>忽略文件属主ID必须和进程用户ID相匹配的限制<br><strong>最后操作的UID,覆盖文件的先前的UID</strong><br>不覆盖DAC, MAC的限制</td>
+</tr>
+<tr>
+<td><code>CAP_FSETID</code></td>
+<td>4</td>
+<td>允许设置文件的 <code>setuid</code> 位,  确保在文件被修改后不修改setuid/setgid位<br>当文件被修改后,会清除掉文件的<code>setuid/setgid</code>位,而设定<code>CAP_FSETID</code>后将保证<code>setuid/setgid</code> 位不被清除.但这对 <code>chown</code> 函数无用</td>
+</tr>
+<tr>
+<td><span class="label danger"> CAP_KILL</span></td>
+<td>5</td>
+<td>对不属于自己的进程发送信号<br>普通用户要用<code>/bin/kill</code>这种绝对路径的方式,而不能用<code>kill</code>这种方式</td>
+</tr>
+<tr>
+<td><code>CAP_SETGID</code></td>
+<td>6</td>
+<td>允许改变进程的组ID, 允许进程使用setgid,  setgroups函数<br>与文件的sgid无关<br>通过UNIX域套接字传递套接字凭证时伪造GID</td>
+</tr>
+<tr>
+<td><span class="label danger">CAP_SETUID</span></td>
+<td>7</td>
+<td>允许改变进程的用户ID, 允许进程使用setuid函数<br>与文件的suid无关<br>通过UNIX域套接字传递套接字凭证时伪造UID</td>
+</tr>
+<tr>
+<td><code>CAP_SETPCAP</code></td>
+<td>8</td>
+<td>允许向其他进程转移能力以及删除其他进程的能力<br><strong>事实上只有init进程可以设定其它进程的能力,而其它程序无权对进程授权</strong><br>root用户也不能对其它进程的能力进行修改<br>只能对当前进程通过cap_set_proc等函数进行修改,而子进程也会继承这种能力.</td>
+</tr>
+<tr>
+<td><code>CAP_LINUX_IMMUTABLE</code></td>
+<td>9</td>
+<td>允许修改文件的不可修改(<strong>IMMUTABLE</strong>)和只添加(<strong>APPEND-ONLY</strong>)属性<br>允许普通用户执行<code>chattr</code>, 添加以上两个属性<br><strong>只能对自己的文件授权</strong>(immutable/append-only)权限,对于其它用户的权限LINUX_IMMUTABLE不起作用(root除外)</td>
+</tr>
+<tr>
+<td><code>CAP_NET_BIND_SERVICE</code></td>
+<td>10</td>
+<td>允许绑定到<strong>小于1024</strong>的端口</td>
+</tr>
+<tr>
+<td><del><code>CAP_NET_BROADCAST</code></del></td>
+<td>11</td>
+<td>允许网络广播和多播访问<br>事实上它<strong>并没有被应用</strong>,普通用户也可以使用 <code>ping -b  192.168.0.255</code> 也发送广播包</td>
+</tr>
+<tr>
+<td><code>CAP_NET_ADMIN</code></td>
+<td>12</td>
+<td>允许执行<strong>网络管理任务</strong>:接口,防火墙和路由等</td>
+</tr>
+<tr>
+<td><code>CAP_NET_RAW</code></td>
+<td>13</td>
+<td>使用原始(raw)套接字,  为透明代理绑定任何地址。</td>
+</tr>
+<tr>
+<td><code>CAP_IPC_LOCK</code></td>
+<td>14</td>
+<td>允许锁定共享内存片段<br>root和普通用户都可以用<code>mlock</code>来锁定内存,区别是root不受ulimit下的锁定内存大小限制,而普通用户会受到影响.<br>锁定内存 (<code>mlock</code>(2)，<code>mlockall</code>(2)，<code>mmap</code>(2)，<code>shmctl</code>(2))。</td>
+</tr>
+<tr>
+<td><code>CAP_IPC_OWNER</code></td>
+<td>15</td>
+<td>忽略IPC所有权检查<br>允许普通用户读取/更改 root用户创建的权限为600的共享内存(<code>shmget</code>)<br>可以修改, 但不可以脱离, 删除共享内存</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_MODULE</code></td>
+<td>16</td>
+<td>允许普通用户插入和删除内核模块</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_RAWIO</code></td>
+<td>17</td>
+<td>允许用户打开I/O端口,并读取修改端口数据,一般用 <code>ioperm/iopl</code> 函数</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_CHROOT</code></td>
+<td>18</td>
+<td>允许使用<code>chroot()</code></td>
+</tr>
+<tr>
+<td><code>CAP_SYS_PTRACE</code></td>
+<td>19</td>
+<td>允许跟踪任何进程,  使用<code>ptrace()</code> <br>默认普通用户不能跟踪任何进程,不包括它自己的进程,<br>CAP_SYS_PTRACE可以帮助普通用户跟踪任何进程.</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_PACCT</code></td>
+<td>20</td>
+<td>允许配置进程记帐process  accounting<br>要完成进程记帐,要保证有写入文件的权限<br>程序通过``acct<code>函数,将进程的记帐写入到指定文件中,如果</code>acct<code>函数的参数为</code>NULL`,则关闭进程记帐.</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_ADMIN</code></td>
+<td>21</td>
+<td>允许执行系统管理任务,如挂载/卸载文件系统,设置磁盘配额,开/关交换设备和文件等</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_BOOT</code></td>
+<td>22</td>
+<td>允许普通用使用<code>reboot()</code>函数,  非<code>reboot</code>命令</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_NICE</code></td>
+<td>23</td>
+<td>允许提升优先级,设置其它进程的优先级</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_RESOURCE</code></td>
+<td>24</td>
+<td>忽略资源限制,  允许普通用户使用setrlimit()来突破ulimit的限制</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_TIME</code></td>
+<td>25</td>
+<td>允许改变系统时钟</td>
+</tr>
+<tr>
+<td><code>CAP_SYS_TTY_CONFIG</code></td>
+<td>26</td>
+<td>允许配置TTY设备</td>
+</tr>
+<tr>
+<td><code>CAP_MKNOD</code></td>
+<td>27</td>
+<td>允许使用 <code>mknod</code> 系统调用</td>
+</tr>
+<tr>
+<td><code>CAP_LEASE</code></td>
+<td>28</td>
+<td>允许在文件上建立租借锁</td>
+</tr>
+<tr>
+<td><code>CAP_AUDIT_WRITE</code></td>
+<td>29</td>
+<td>向内核审计日志写记录。</td>
+</tr>
+<tr>
+<td><code>CAP_AUDIT_CONTROL</code></td>
+<td>30</td>
+<td>启用和禁用内核审计；修改审计过滤器规则；提取审计状态和过滤规则。</td>
+</tr>
+<tr>
+<td><code>CAP_SETFCAP</code></td>
+<td>31</td>
+<td>允许在指定的程序上授权能力给其它程序</td>
+</tr>
+<tr>
+<td><code>CAP_MAC_OVERRIDE</code></td>
+<td>32</td>
+<td>忽略MAC访问控制</td>
+</tr>
+<tr>
+<td><code>CAP_MAC_ADMIN</code></td>
+<td>33</td>
+<td>允许配置MAC或状态改变</td>
+</tr>
+<tr>
+<td><code>CAP_SYSLOG</code></td>
+<td>34</td>
+<td>允许配置内核syslog,  执行特权 syslog(2) 操作</td>
+</tr>
+<tr>
+<td><code>CAP_WAKE_ALARM</code></td>
+<td>35</td>
+<td>触发将唤醒系统的东西 (设置  CLOCK_REALTIME_ALARM 和 CLOCK_BOOTTIME_ALARM 定时器)</td>
+</tr>
+<tr>
+<td><code>CAP_BLOCK_SUSPEND</code></td>
+<td>36</td>
+<td>可以阻塞系统挂起(epoll(7)  EPOLLWAKEUP，/proc/sys/wake_lock)的特性。</td>
+</tr>
+<tr>
+<td><code>CAP_AUDIT_READ</code></td>
+<td>37</td>
+<td>允许通过一个多播  netlink socket 读取审计日志。</td>
+</tr>
+</tbody></table>
+<h1 id="Cap能力继承"><a href="#Cap能力继承" class="headerlink" title="Cap能力继承"></a>Cap能力继承</h1><ul>
+<li>Linux系统中的能力分为两部分，一部分是进程能力，一部分是文件能力，而Linux内核最终检查的是进程能力中的<code>Effective</code>。而文件能力和进程能力中的其他部分用来完整能力继承、限制等方面的内容。</li>
+<li>查看 <code>capabilities</code> 的man手册, 其中描述能力继承公式如下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">公式一: P&#39;(ambient)     &#x3D; (file is privileged) ? 0 : P(ambient)       &#x2F;&#x2F;file cap, suid, sgid</span><br><span class="line">公式二: P&#39;(permitted)   &#x3D; (P(inheritable) &amp; F(inheritable)) | (F(permitted) &amp; cap_bset) | P&#39;(ambient)</span><br><span class="line">公式三: P&#39;(effective)   &#x3D; F(effective) ? P&#39;(permitted) : P&#39;(ambient)</span><br><span class="line">公式四: P&#39;(inheritable) &#x3D; P(inheritable)    [i.e., unchanged]       &#x2F;&#x2F;inheritable不变</span><br><span class="line"></span><br><span class="line">说明:</span><br><span class="line">    P	  进程能力, execve前</span><br><span class="line">    P&#39;  进程能力, execve后</span><br><span class="line">    F   文件能力</span><br><span class="line">    cap_bset, 系统能力边界值. 为root进程所具有的所有能力</span><br><span class="line">privileged file 是指有能力或设置suid或sgid的可执行文件</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>梳理一下上述的公式</p>
+<ul>
+<li>上述公式针对的是 <code>execve()</code>, <code>fork()</code> 会完整继承父进程的cap能力</li>
+<li>文件 <code>Inheritable</code> 与进程 <code>Inheritable</code> 没关系, 根据<strong>公式四</strong></li>
+<li>文件能力只传递在子进程的 <code>Permitted</code> 集合中,  根据<strong>公式二</strong></li>
+<li><code>Effective</code> 才是进程特权操作判别的能力集<ul>
+<li>子进程 <code>Effective</code> 才是正式继承</li>
+<li>两种方法<ul>
+<li>子进程手动添加能力, <code>capset()</code></li>
+<li>子进程可执行文件, 开启 <code>Effective</code> 标志位, 根据<strong>公式三</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>想要子进程继承父进程能力, 父进程的 <code>Inheritable</code> 和 子进程文件的 <code>Inheritable</code> 很关键, 根据<strong>公式二</strong></li>
+<li><code>Ambient</code> 是 4.4之后支持的能力集, 在不支持该能力集的时候, 将公式中的 <code>Ambient</code> 能力集认作 0 即可</li>
+</ul>
+</li>
+<li><p>普通用户执行了 <code>execve()</code>，那么 <code>Permitted</code> 和 <code>Effective</code> 集合中的 <code>capabilities</code> 都会被清空, <code>Inheritable</code> 未被清空</p>
+<ul>
+<li>root切换到普通用户, <code>Permitted</code> 和 <code>Effective</code> 同样会被清空, 除非设置了 <code>SECBIT_KEEP_CAPS</code> 或更宽泛的 <code>SECBIT_NO_SETUID_FIXUP</code></li>
+</ul>
+</li>
+<li><p>普通用户切换root, 现有的P集合拷贝到E集合</p>
+</li>
+</ul>
+<blockquote class="blockquote-center"><p>如果一个文件系统的用户ID从0变成非0，那么以下的能力在E集合中清除：CAP_CHOWN, CAP_DAC_OVERRIDE,  CAP_DAC_READ_SEARCH,  CAP_FOWNER,  CAP_FSETID,  CAP_LINUX_IMMUTABLE  (since  Linux  2.2.30),  CAP_MAC_OVERRIDE,  CAP_MKNOD，如果一个文件系统的用户ID从0变成非0，那么在P集合中使能的能力将设置到E集合中。</p>
+</blockquote>
+
+<ul>
+<li>想要正确继承能力<ul>
+<li><code>fork</code>, 完整继承父进程能力</li>
+<li><code>exec</code>, 只有三种情况可以<ul>
+<li>子进程 <strong>euid是root</strong><ul>
+<li>父进程是特权进程, 子进程也必然是root(除非子进程中有降权操作)</li>
+<li>父进程是普通进程, 则子进程应是 <code>setuid-root</code> 进程</li>
+</ul>
+</li>
+<li>子进程<strong>有文件能力</strong>, 关键是 <strong><code>Effective</code> 启用</strong>, <code>Inheritable</code> 能力集包含父进程 <code>Inheritable</code> 能力集</li>
+<li><strong><code>Ambient</code> 能力</strong>, 此情景下子进程可以是普通可执行文件(没有文件能力, 没有suid)<ul>
+<li>前文有提到, <code>Ambient</code> 的提出就是为了解决非root用户使用 <code>exec</code> 执行一个程序时候如何保留权限的问题</li>
+<li>此种创景参见上述继承公式, 公式一, 二, 三</li>
+<li>子进程可执行文件非 <code>setuid-root</code>, 也没有文件能力, 此时子进程继承父进程 <code>Ambient</code> 能力集, 根据<strong>公式一</strong></li>
+<li>子进程没有文件能力(fI, fP均为0), 则此时子进程 <code>Permitted</code> = <code>Ambient</code>, 根据<strong>公式三</strong></li>
+<li>子进程没有文件能力(fE为0), 此此时子进程 <code>Effective</code> = <code>Ambient</code>, 根据<strong>公式三</strong></li>
+<li>参考man手册关于 <code>Ambient</code> 的描述, <code>Ambient</code> 可以通过 <code>prctl</code> 设置</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>还有一种情况, <strong>子进程是脚本文件</strong>, 而非可执行文件<ul>
+<li>脚本的话会涉及解释器, 如 <code>bash, python, perl</code></li>
+<li>这种情况<strong>实质上进行了两次 <code>execve</code></strong></li>
+<li>因此想要脚本中执行的命令继承到权限, 需要保证解析器, 执行命令也满足上述继承能力的场景<ul>
+<li>但其实也就只有<code>euid=root</code> 和 <strong>文件能力</strong> 两条路</li>
+</ul>
+</li>
+<li>本质上需要<strong>保证整个链路上的权限</strong></li>
+</ul>
+</li>
+</ul>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://ivanzz1001.github.io/records/post/linux/2017/11/16/linux-unix_uid" target="_blank" rel="noopener">Linux进程控制之uid/euid/suid</a></li>
+<li><a href="https://www.anquanke.com/post/id/86979" target="_blank" rel="noopener">【安全科普】Linux提权——利用可执行文件SUID</a></li>
+<li><a href="https://www.hrwhisper.me/introduction-to-linux-capability/" target="_blank" rel="noopener">Linux setuid与权能介绍 - 细语呢喃</a></li>
+<li><a href="https://www.cnblogs.com/iamfy/archive/2012/09/20/2694977.html" target="_blank" rel="noopener">[转载] Linux的capability深入分析</a></li>
+<li><a href="http://www.freeoa.net/osuport/sysadmin/linux-capabilities-intro_3313.html" target="_blank" rel="noopener">Linux Capabilities 简介及使用</a></li>
+<li><a href="https://www.cnblogs.com/gordon0918/p/5328436.html" target="_blank" rel="noopener">Linux能力(capability)机制的继承</a></li>
+<li><a href="http://rk700.github.io/2016/10/26/linux-capabilities/" target="_blank" rel="noopener">Linux的capabilities机制</a></li>
+<li><a href="https://jin-yang.github.io/post/linux-capabilities-introduce.html" target="_blank" rel="noopener">Linux 系统用户</a></li>
+<li><a href="https://blog.csdn.net/fivedragon/article/details/676849" target="_blank" rel="noopener">利用capability特征加强Linux系统安全</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+    <div>
+        <div class="reward-container">
+  <div>如果这篇文章对您很有帮助，不妨</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="Hosted 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="Hosted 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------　　　　本文结束　<i class="fa fa-heart"></i>　感谢您的阅读　　　　-------------</div>
+
+    
+    </div>
+        
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+<div>
+<ul class="my-post-copyright">
+    <li class="post-copyright-title">
+    <strong>本文标题： </strong>Linux权限相关
+    </li>
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>Hosted
+  </li>
+  <li class="post-copyright-date">
+    <strong>发布时间： </strong>2020年06月25日 - 09:36:51 
+  </li>
+  <li class="post-copyright-update">
+    <strong>最后更新： </strong>2020年06月27日 - 19:47:56
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://hosted-code.github.io/posts/4220703012.html" title="Linux权限相关">http://hosted-code.github.io/posts/4220703012.html</a>
+    <span class="copy-path"  title="点击复制文章链接"><i class="fa fa-clipboard" data-clipboard-text="http://hosted-code.github.io/posts/4220703012.html"  aria-label="复制成功！"></i></span>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/zh-CN" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i>BY-NC-ND</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+<style>
+.my-post-copyright {
+    width: 85%;
+    max-width: 45em;
+    margin: 2.8em auto 0;
+    padding: .5em 1em;
+    border: 1px solid #d3d3d3;
+    font-size: .93rem;
+    line-height: 1.6em;
+    word-break: break-all;
+    background: rgba(255,255,255,.4);
+    box-shadow: 0 0 10px rgba(0,0,0,.12);
+    color: #555;
+}
+</style>
+<script> 
+    var clipboard = new Clipboard('.fa-clipboard');
+    clipboard.on('success', function(){
+      $(".fa-clipboard").click(function(){
+        swal({   
+          title: "",   
+          text: '复制成功',   
+          html: false,
+          timer: 500,   
+          showConfirmButton: false
+        });
+      });
+    });  
+</script>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Capabilities/" rel="tag"># Capabilities</a>
+          </div>
+      
+  <div class="popular-posts-header">📚  相关文章推荐</div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/1645038700.html" rel="bookmark">Vim 使用</a></div>
+    </li>
+    <li class="popular-posts-item">
+      <div class="popular-posts-title"><a href="/posts/2914184278.html" rel="bookmark">定义未使用的变量</a></div>
+    </li>
+  </ul>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/3100115695.html" rel="prev" title="【随笔】时令相关">
+      <i class="fa fa-chevron-left"></i> 【随笔】时令相关
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/1645038700.html" rel="next" title="Vim 使用">
+      Vim 使用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+    <div class="post-spread">
+    <!-- 引入share.js -->
+        
+               <center><div data-weibo-title="分享到微博" data-qq-title="分享到QQ" data-douban-title="分享到豆瓣" class="social-share" class="share-component" data-disabled="twitter,facebook" data-description="Share.js - 一键分享到微博，QQ空间，腾讯微博，人人，豆瓣">分享到：</div></center>
+        
+    </div>
+</div>
+
+
+          </div>
+          
+    <div class="comments" id="comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#setuid"><span class="nav-number">1.</span> <span class="nav-text">setuid</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从passwd说起"><span class="nav-number">1.1.</span> <span class="nav-text">从passwd说起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#有什么问题-提权"><span class="nav-number">1.2.</span> <span class="nav-text">有什么问题? 提权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SetUID的使用"><span class="nav-number">1.3.</span> <span class="nav-text">SetUID的使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-Cap能力"><span class="nav-number">2.</span> <span class="nav-text">Linux Cap能力</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从ping开始谈起"><span class="nav-number">2.1.</span> <span class="nav-text">从ping开始谈起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#能力集"><span class="nav-number">2.2.</span> <span class="nav-text">能力集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程-进程-能力"><span class="nav-number">2.3.</span> <span class="nav-text">线程(进程)能力</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件能力"><span class="nav-number">2.4.</span> <span class="nav-text">文件能力</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cap能力"><span class="nav-number">3.</span> <span class="nav-text">Cap能力</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cap能力继承"><span class="nav-number">4.</span> <span class="nav-text">Cap能力继承</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考链接"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Hosted"
+      src="/images/head.png">
+  <p class="site-author-name" itemprop="name">Hosted</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/yourname" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:whcycle493@gmail.com" title="E-Mail → mailto:whcycle493@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fa fa-fw fa-rss"></i>RSS</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/poem_qianmo" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;poem_qianmo" rel="noopener" target="_blank">浅墨的游戏编程Blog</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://hellogithub.com/" title="https:&#x2F;&#x2F;hellogithub.com&#x2F;" rel="noopener" target="_blank">HelloGitHub</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/yinwenjie" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;yinwenjie" rel="noopener" target="_blank">说好不能打脸</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://overapi.com/" title="http:&#x2F;&#x2F;overapi.com&#x2F;" rel="noopener" target="_blank">OverAPI</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="http://www.52im.net/" title="http:&#x2F;&#x2F;www.52im.net&#x2F;" rel="noopener" target="_blank">即时通信网</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://bestzuo.cn/" title="https:&#x2F;&#x2F;bestzuo.cn&#x2F;" rel="noopener" target="_blank">Sanarous(Hexo)</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2019 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Hosted</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">115k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:45</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="/js/src/Valine.min.js"></script>
+
+  <script type="text/javascript">
+    new Valine({
+        lang: 'zh-cn',
+        admin_email: 'whcycle493@gmai.com',
+        el: '#comments' ,
+        appId: 'XXlFmaUUu3a48dG4Xg1N3xUT-gzGzoHsz',
+        appKey: 'Ah7OceuwXxogj5DkH3U0tNi8',
+        emoticon_url: 'https://cloud.panjunwen.com/alu',
+        emoticon_list: ["狂汗.png","不说话.png","汗.png","坐等.png","献花.png","不高兴.png","中刀.png","害羞.png","皱眉.png","小眼睛.png","暗地观察.png"],
+        placeholder: '',
+  });
+  </script>
+
+
+   <!--崩溃欺骗-->
+  
+    <script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+  
+  <!-- 点击特效 -->
+  
+    
+      <script src="/js/src/fireworks.js"></script>
+    
+  
+  <!-- 背景特效 -->
+  
+  <script type="text/javascript" src="/js/src/particle.js"></script>
+  
+  <!-- 分享功能 -->
+  <script src="/dist/js/social-share.min.js"></script>
+  <!-- 卡片链接 -->
+  <script type="text/javascript" src="/js/src/linkcard.js"></script>
+</body>
+</html>
