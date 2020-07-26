@@ -1,5 +1,5 @@
 ---
-title: LeetCode - 不想交的线
+title: LeetCode - 不相交的线
 categories:
   - Leetcode
 tags:
